@@ -13,7 +13,6 @@ h1{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:2px;color:#
 .card{background:#fff;border:1px solid #e0d9cf;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 label{display:block;font-size:11px;font-weight:600;color:#7a7570;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 select,input[type=text],input[type=date]{width:100%;border:1px solid #e0d9cf;border-radius:6px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:14px;background:#faf8f4;color:#1a1a1a;outline:none}
-select:focus,input:focus{border-color:#c8521a}
 .fecha-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .prod-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e0d9cf;border-radius:8px;background:#faf8f4;margin-bottom:6px}
 .prod-row.activo{border-color:#c8521a;background:#fdf0e8}
@@ -27,11 +26,12 @@ select:focus,input:focus{border-color:#c8521a}
 .resumen-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
 .resumen-row.total{font-weight:600;font-size:17px;color:#c8521a;padding-top:8px;border-top:2px solid #c8521a}
 .resumen-prod{color:#7a7570}
-.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px}
 .btn{padding:12px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;color:#fff}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 .btn-primary{background:#c8521a}
 .btn-secondary{background:#2d6a4f}
+.btn-calendar{background:#3a6ea5}
 .alert{border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px;display:none}
 .alert.show{display:block}
 .alert-warn{background:#fdecea;border:1px solid #f5c6c2;color:#c0392b}
@@ -44,6 +44,7 @@ select:focus,input:focus{border-color:#c8521a}
 @keyframes spin{to{transform:rotate(360deg)}}
 .info-cli{margin-top:8px;font-size:12px;color:#7a7570;display:none;line-height:1.8;background:#faf8f4;padding:8px 10px;border-radius:6px;border:1px solid #e0d9cf}
 .wa-nota{font-size:11px;color:#7a7570;margin-top:8px;line-height:1.5;display:none}
+@media(max-width:700px){.btns{grid-template-columns:1fr}.fecha-row{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -110,11 +111,15 @@ select:focus,input:focus{border-color:#c8521a}
 <div class="card">
   <div class="btns">
     <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>
-      💾 Guardar en Sheets
+      💾 Guardar
+    </button>
+
+    <button class="btn btn-calendar" id="btn-calendar" onclick="crearEventoCalendar()" disabled>
+      📅 Calendar
     </button>
 
     <button class="btn btn-primary" id="btn-whatsapp" onclick="generarWhatsApp()" disabled>
-      💬 Mensaje WhatsApp
+      💬 WhatsApp
     </button>
   </div>
 
@@ -146,6 +151,7 @@ function ponerFechaManana() {
 function cargarJSONP(accion) {
   return new Promise((resolve, reject) => {
     const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const script = document.createElement('script');
 
     window[callbackName] = function(data) {
       delete window[callbackName];
@@ -153,13 +159,37 @@ function cargarJSONP(accion) {
       resolve(data);
     };
 
-    const script = document.createElement('script');
     script.src = SCRIPT_URL + '?accion=' + encodeURIComponent(accion) + '&callback=' + callbackName;
 
     script.onerror = function() {
       delete window[callbackName];
       script.remove();
       reject(new Error('No se pudo cargar ' + accion));
+    };
+
+    document.body.appendChild(script);
+  });
+}
+
+function cargarJSONPConParams(params) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const script = document.createElement('script');
+
+    params.set('callback', callbackName);
+
+    window[callbackName] = function(data) {
+      delete window[callbackName];
+      script.remove();
+      resolve(data);
+    };
+
+    script.src = SCRIPT_URL + '?' + params.toString();
+
+    script.onerror = function() {
+      delete window[callbackName];
+      script.remove();
+      reject(new Error('No se pudo conectar con Apps Script'));
     };
 
     document.body.appendChild(script);
@@ -190,6 +220,7 @@ async function cargarDatosDesdeSheets() {
     alertEl.textContent = '❌ Error cargando datos: ' + err.message;
   }
 }
+
 function pintarClientes() {
   const sel = document.getElementById('sel-cliente');
   sel.innerHTML = '<option value="">— Elige un cliente —</option>';
@@ -209,7 +240,6 @@ function pintarProductos() {
 
   PRODUCTOS.forEach(p => {
     cantidades[p.id] = 0;
-
     const precio = Number(p.precio) || 0;
 
     const row = document.createElement('div');
@@ -295,6 +325,7 @@ function validarBtns() {
              PRODUCTOS.some(p => cantidades[p.id] > 0);
 
   document.getElementById('btn-guardar').disabled = !ok;
+  document.getElementById('btn-calendar').disabled = !ok;
   document.getElementById('btn-whatsapp').disabled = !ok;
 }
 
@@ -337,8 +368,69 @@ async function guardarEnSheets() {
   btn.innerHTML = '<span class="spinner"></span>Guardando...';
   btn.disabled = true;
 
-  const params = new URLSearchParams({
-    accion: 'guardarPedido',
+  const params = armarParamsPedido(p, 'guardarPedido');
+
+  try {
+    const data = await cargarJSONPConParams(params);
+
+    if (!data.ok) throw new Error(data.error || 'No se pudo guardar el pedido');
+
+    alertEl.className = 'alert alert-ok show';
+    alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado en BD_PEDIDOS';
+
+    btn.innerHTML = '✓ Guardado';
+
+    setTimeout(() => {
+      btn.innerHTML = '💾 Guardar';
+      btn.disabled = false;
+    }, 3000);
+
+  } catch (err) {
+    alertEl.className = 'alert alert-warn show';
+    alertEl.textContent = '❌ Error al guardar: ' + err.message;
+
+    btn.innerHTML = '💾 Guardar';
+    btn.disabled = false;
+  }
+}
+
+async function crearEventoCalendar() {
+  const p = construirPedido();
+  const btn = document.getElementById('btn-calendar');
+  const alertEl = document.getElementById('alert-save');
+
+  btn.innerHTML = '<span class="spinner"></span>Creando...';
+  btn.disabled = true;
+
+  const params = armarParamsPedido(p, 'crearCalendar');
+
+  try {
+    const data = await cargarJSONPConParams(params);
+
+    if (!data.ok) throw new Error(data.error || 'No se pudo crear el evento');
+
+    alertEl.className = 'alert alert-ok show';
+    alertEl.textContent = '✅ Evento creado en Google Calendar';
+
+    btn.innerHTML = '✓ Calendar';
+
+    setTimeout(() => {
+      btn.innerHTML = '📅 Calendar';
+      btn.disabled = false;
+    }, 3000);
+
+  } catch (err) {
+    alertEl.className = 'alert alert-warn show';
+    alertEl.textContent = '❌ Error Calendar: ' + err.message;
+
+    btn.innerHTML = '📅 Calendar';
+    btn.disabled = false;
+  }
+}
+
+function armarParamsPedido(p, accion) {
+  return new URLSearchParams({
+    accion: accion,
     id_pedido: p.idPedido,
     fecha_pedido: p.fechaHoy,
     id_cliente: p.cliId,
@@ -352,58 +444,7 @@ async function guardarEnSheets() {
     notas: p.notas || '',
     estado_pedido: 'Pendiente'
   });
-
-  try {
-    const data = await cargarJSONPConParams(params);
-
-    if (!data.ok) {
-      throw new Error(data.error || 'No se pudo guardar el pedido');
-    }
-
-    alertEl.className = 'alert alert-ok show';
-    alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado en BD_PEDIDOS';
-
-    btn.innerHTML = '✓ Guardado';
-    btn.style.background = '#2d6a4f';
-
-    setTimeout(() => {
-      btn.innerHTML = '💾 Guardar en Sheets';
-      btn.disabled = false;
-    }, 3000);
-
-  } catch (err) {
-    alertEl.className = 'alert alert-warn show';
-    alertEl.textContent = '❌ Error al guardar: ' + err.message;
-
-    btn.innerHTML = '💾 Guardar en Sheets';
-    btn.disabled = false;
-  }
 }
-function cargarJSONPConParams(params) {
-  return new Promise((resolve, reject) => {
-    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-
-    params.set('callback', callbackName);
-
-    window[callbackName] = function(data) {
-      delete window[callbackName];
-      script.remove();
-      resolve(data);
-    };
-
-    const script = document.createElement('script');
-    script.src = SCRIPT_URL + '?' + params.toString();
-
-    script.onerror = function() {
-      delete window[callbackName];
-      script.remove();
-      reject(new Error('No se pudo conectar con Apps Script'));
-    };
-
-    document.body.appendChild(script);
-  });
-}
-  
 
 function generarWhatsApp() {
   const p = construirPedido();
