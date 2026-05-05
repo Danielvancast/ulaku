@@ -237,26 +237,59 @@ function construirPedido(){
 }
 
 async function guardarEnSheets(){
-  const p=construirPedido();
-  const btn=document.getElementById('btn-guardar');
-  const alertEl=document.getElementById('alert-save');
-  btn.innerHTML='<span class="spinner"></span>Guardando...';
-  btn.disabled=true;
+  const p = construirPedido();
+  const btn = document.getElementById('btn-guardar');
+  const alertEl = document.getElementById('alert-save');
 
-  const params=new URLSearchParams({
-    id_pedido:p.idPedido,
-    fecha_pedido:p.fechaHoy,
-    id_cliente:p.cliId,
-    nombre_cliente:p.cli.nombre,
-    telefono:p.cli.tel,
-    direccion:p.cli.dir,
-    productos:p.lineas.join(' | '),
-    total:p.total,
-    fecha_entrega:p.fecha,
-    estado_pago:p.pago,
-    notas:p.notas||'',
-    estado_pedido:'Pendiente'
+  btn.innerHTML = '<span class="spinner"></span>Guardando...';
+  btn.disabled = true;
+
+  const params = new URLSearchParams({
+    id_pedido: p.idPedido,
+    fecha_pedido: p.fechaHoy,
+    id_cliente: p.cliId,
+    nombre_cliente: p.cli.nombre,
+    telefono: p.cli.tel,
+    direccion: p.cli.dir,
+    productos: p.lineas.join(' | '),
+    total: p.total,
+    fecha_entrega: p.fecha,
+    estado_pago: p.pago,
+    notas: p.notas || '',
+    estado_pedido: 'Pendiente'
   });
+
+  try {
+    const res = await fetch(SCRIPT_URL + '?' + params.toString(), {
+      method: 'GET'
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      throw new Error(data.error || 'No se pudo guardar el pedido');
+    }
+
+    alertEl.className = 'alert alert-ok show';
+    alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado en BD_PEDIDOS';
+
+    btn.innerHTML = '✓ Guardado';
+    btn.style.background = '#2d6a4f';
+
+    setTimeout(() => {
+      btn.innerHTML = '💾 Guardar en Sheets';
+      btn.style.background = '#2d6a4f';
+      btn.disabled = false;
+    }, 3000);
+
+  } catch (err) {
+    alertEl.className = 'alert alert-warn show';
+    alertEl.textContent = '❌ Error al guardar: ' + err.message;
+
+    btn.innerHTML = '💾 Guardar en Sheets';
+    btn.disabled = false;
+  }
+};
 
   try{
     const res=await fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
