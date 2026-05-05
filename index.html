@@ -339,11 +339,24 @@ function construirPedido() {
 
   let total = 0;
 
-  const lineas = items.map(p => {
+  const detalle = items.map(p => {
     const precio = Number(p.precio) || 0;
-    const sub = precio * cantidades[p.id];
-    total += sub;
-    return cantidades[p.id] + 'x ' + p.nombre + ' ($' + sub.toLocaleString('es-CO') + ')';
+    const cantidad = cantidades[p.id];
+    const subtotal = precio * cantidad;
+
+    total += subtotal;
+
+    return {
+      codigo_producto: p.id,
+      producto: p.nombre,
+      cantidad: cantidad,
+      valor_unitario: precio,
+      subtotal: subtotal
+    };
+  });
+
+  const lineas = detalle.map(item => {
+    return item.cantidad + 'x ' + item.producto + ' ($' + item.subtotal.toLocaleString('es-CO') + ')';
   });
 
   return {
@@ -354,6 +367,7 @@ function construirPedido() {
     pago,
     notas,
     items,
+    detalle,
     lineas,
     total,
     fechaHoy: new Date().toLocaleDateString('es-CO')
@@ -438,6 +452,7 @@ function armarParamsPedido(p, accion) {
     telefono: p.cli.telefono || '',
     direccion: p.cli.direccion || '',
     productos: p.lineas.join(' | '),
+    detalle_productos: JSON.stringify(p.detalle),
     total: p.total,
     fecha_entrega: p.fecha,
     estado_pago: p.pago,
