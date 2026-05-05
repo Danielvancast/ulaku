@@ -1,64 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:#f5f1eb;color:#1a1a1a;padding:16px;font-size:14px}
-  h1{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:2px;color:#c8521a}
-  .subtitle{color:#7a7570;font-size:12px;margin-bottom:16px}
-  .card{background:#fff;border:1px solid #e0d9cf;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-  label{display:block;font-size:11px;font-weight:600;color:#7a7570;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-  select,input[type=text],input[type=date]{width:100%;border:1px solid #e0d9cf;border-radius:6px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:14px;background:#faf8f4;color:#1a1a1a;outline:none;transition:border .15s}
-  select:focus,input:focus{border-color:#c8521a}
-  .fecha-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .prod-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e0d9cf;border-radius:8px;background:#faf8f4;transition:border .15s;margin-bottom:6px}
-  .prod-row:last-child{margin-bottom:0}
-  .prod-row:hover{border-color:#c8521a}
-  .prod-row.activo{border-color:#c8521a;background:#fdf0e8}
-  .prod-nombre{flex:1;font-weight:500;font-size:13px;color:#1a1a1a}
-  .prod-precio{color:#7a7570;font-size:12px;min-width:72px;text-align:right}
-  .prod-qty{display:flex;align-items:center;gap:6px}
-  .qty-btn{width:28px;height:28px;border:1px solid #e0d9cf;border-radius:50%;background:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:#1a1a1a;transition:all .1s;flex-shrink:0;line-height:1}
-  .qty-btn:hover{background:#c8521a;border-color:#c8521a;color:#fff}
-  .qty-num{min-width:22px;text-align:center;font-weight:600;font-size:15px;color:#1a1a1a}
-  .divider{height:1px;background:#e0d9cf;margin:10px 0}
-  .resumen-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:#1a1a1a}
-  .resumen-row.total{font-weight:600;font-size:17px;color:#c8521a;padding-top:8px;border-top:2px solid #c8521a}
-  .resumen-prod{color:#7a7570}
-  .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
-  .btn{padding:12px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s;color:#fff}
-  .btn:disabled{opacity:.35;cursor:not-allowed}
-  .btn-primary{background:#c8521a}
-  .btn-primary:hover:not(:disabled){opacity:.88}
-  .btn-secondary{background:#2d6a4f}
-  .btn-secondary:hover:not(:disabled){opacity:.88}
-  .alert{border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px;display:none}
-  .alert.show{display:block}
-  .alert-warn{background:#fdecea;border:1px solid #f5c6c2;color:#c0392b}
-  .alert-ok{background:#e9f5ef;border:1px solid #b7dfc9;color:#2d6a4f}
-  .pedido-preview{background:#1e1e1e;color:#e8e4de;border-radius:8px;padding:14px;font-size:12px;line-height:1.8;font-family:monospace;margin-top:10px;white-space:pre-wrap;display:none}
-  .pedido-preview.show{display:block}
-  .copy-btn{background:transparent;border:1px solid #555;color:#888;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif;display:none}
-  .copy-btn:hover{border-color:#aaa;color:#ccc}
-  .section-title{font-size:13px;font-weight:600;margin-bottom:10px;color:#1a1a1a}
-  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .info-cli{margin-top:8px;font-size:12px;color:#7a7570;display:none;line-height:1.8;background:#faf8f4;padding:8px 10px;border-radius:6px;border:1px solid #e0d9cf}
-  .wa-nota{font-size:11px;color:#7a7570;margin-top:8px;line-height:1.5;display:none}
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f5f1eb;color:#1a1a1a;padding:16px;font-size:14px}
+h1{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:2px;color:#c8521a}
+.subtitle{color:#7a7570;font-size:12px;margin-bottom:16px}
+.card{background:#fff;border:1px solid #e0d9cf;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+label{display:block;font-size:11px;font-weight:600;color:#7a7570;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+select,input[type=text],input[type=date]{width:100%;border:1px solid #e0d9cf;border-radius:6px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:14px;background:#faf8f4;color:#1a1a1a;outline:none}
+select:focus,input:focus{border-color:#c8521a}
+.fecha-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prod-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e0d9cf;border-radius:8px;background:#faf8f4;margin-bottom:6px}
+.prod-row.activo{border-color:#c8521a;background:#fdf0e8}
+.prod-nombre{flex:1;font-weight:500;font-size:13px}
+.prod-precio{color:#7a7570;font-size:12px;min-width:72px;text-align:right}
+.prod-qty{display:flex;align-items:center;gap:6px}
+.qty-btn{width:28px;height:28px;border:1px solid #e0d9cf;border-radius:50%;background:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:#c8521a;border-color:#c8521a;color:#fff}
+.qty-num{min-width:22px;text-align:center;font-weight:600;font-size:15px}
+.divider{height:1px;background:#e0d9cf;margin:10px 0}
+.resumen-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+.resumen-row.total{font-weight:600;font-size:17px;color:#c8521a;padding-top:8px;border-top:2px solid #c8521a}
+.resumen-prod{color:#7a7570}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.btn{padding:12px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;color:#fff}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-primary{background:#c8521a}
+.btn-secondary{background:#2d6a4f}
+.alert{border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px;display:none}
+.alert.show{display:block}
+.alert-warn{background:#fdecea;border:1px solid #f5c6c2;color:#c0392b}
+.alert-ok{background:#e9f5ef;border:1px solid #b7dfc9;color:#2d6a4f}
+.pedido-preview{background:#1e1e1e;color:#e8e4de;border-radius:8px;padding:14px;font-size:12px;line-height:1.8;font-family:monospace;margin-top:10px;white-space:pre-wrap;display:none}
+.pedido-preview.show{display:block}
+.copy-btn{background:transparent;border:1px solid #555;color:#888;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif;display:none}
+.section-title{font-size:13px;font-weight:600;margin-bottom:10px}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.info-cli{margin-top:8px;font-size:12px;color:#7a7570;display:none;line-height:1.8;background:#faf8f4;padding:8px 10px;border-radius:6px;border:1px solid #e0d9cf}
+.wa-nota{font-size:11px;color:#7a7570;margin-top:8px;line-height:1.5;display:none}
 </style>
+</head>
+
+<body>
 
 <h1>🍞 Registro de Pedidos</h1>
 <p class="subtitle">Panadería artesanal · BD_PEDIDOS</p>
 
-<div id="alert-stock" class="alert alert-warn show">
-  ⚠️ <strong>Stock bajo:</strong> Harina, Levadura, Huevo, Tomate
-</div>
 <div id="alert-save" class="alert"></div>
 
 <div class="card">
   <p class="section-title">Cliente</p>
   <label>Seleccionar cliente</label>
   <select id="sel-cliente" onchange="actualizarCliente()">
-    <option value="">— Elige un cliente —</option>
+    <option value="">Cargando clientes...</option>
   </select>
+
   <div class="info-cli" id="info-cliente">
     <div id="cli-dir"></div>
     <div id="cli-tel"></div>
@@ -67,16 +69,18 @@
 
 <div class="card">
   <p class="section-title">Productos</p>
-  <div id="productos-grid"></div>
+  <div id="productos-grid">Cargando productos...</div>
 </div>
 
 <div class="card">
   <p class="section-title">Entrega</p>
+
   <div class="fecha-row">
     <div>
       <label>Fecha de entrega</label>
       <input type="date" id="fecha-entrega">
     </div>
+
     <div>
       <label>Estado de pago</label>
       <select id="estado-pago">
@@ -86,6 +90,7 @@
       </select>
     </div>
   </div>
+
   <div style="margin-top:10px">
     <label>Notas</label>
     <input type="text" id="notas" placeholder="Sin sal, entregar en portería...">
@@ -104,139 +109,208 @@
 
 <div class="card">
   <div class="btns">
-    <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>💾 Guardar en Sheets</button>
-    <button class="btn btn-primary" id="btn-whatsapp" onclick="generarWhatsApp()" disabled>💬 Mensaje WhatsApp</button>
+    <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>
+      💾 Guardar en Sheets
+    </button>
+
+    <button class="btn btn-primary" id="btn-whatsapp" onclick="generarWhatsApp()" disabled>
+      💬 Mensaje WhatsApp
+    </button>
   </div>
+
   <p class="wa-nota" id="wa-nota">Copia este mensaje y pégalo en WhatsApp al cliente.</p>
   <div id="pedido-preview" class="pedido-preview"></div>
   <button class="copy-btn" id="btn-copy" onclick="copiarMensaje()">📋 Copiar mensaje</button>
 </div>
 
 <script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwz6hhwv2clc_6Br07ymuT2N_QwQKzBi0UFdGDqjpnEYTse1NzxsbYT06oZNzzroJV3/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSgoSlIjzcoELyaoOtSbR4DI02cFHHTEyTuC4gjoxjUXO9hNmIC5qZ624_poXehKed/exec';
 
-const CLIENTES=[
-  {id:"CLI-001",nombre:"Enrique Díaz",dir:"Parque Santana Torre 9 Apt 303",tel:"3208687245"},
-  {id:"CLI-002",nombre:"Jorge González",dir:"Camino de Santana Torre 2 Apt 502",tel:"3133957496"},
-  {id:"CLI-003",nombre:"Carlos Asprilla",dir:"Carrera 7b #108a-09 Casa 4",tel:"3153273454"},
-  {id:"CLI-004",nombre:"Jose Carulla",dir:"Carrera 7b #108a-09 Casa 1",tel:"3102857463"},
-  {id:"CLI-005",nombre:"Daniel Betancur",dir:"Altos de Santana Torre 3 apt 1203",tel:"3003129959"},
-  {id:"CLI-006",nombre:"Claudia Macoas",dir:"Carrera 7b 108a-09 Casa 2",tel:"3153312539"},
-  {id:"CLI-007",nombre:"Veronica Pinto S",dir:"Hatogrande Reservado Casa 71",tel:"3017910884"},
-  {id:"CLI-008",nombre:"Mariana Carrizosa",dir:"Hatogrande Reservado Casa 6",tel:"3153432142"},
-  {id:"CLI-009",nombre:"Felipe Pinto",dir:"Hatogrande Reservado Casa 1",tel:"3134953262"},
-  {id:"CLI-010",nombre:"Fernando Solórzano",dir:"Miraflores Torre 1 Apt 303",tel:"3106095313"},
-  {id:"CLI-011",nombre:"Mauricio Chaparro",dir:"Calle 133 #19-59 Apt 906",tel:"3115325143"},
-  {id:"CLI-012",nombre:"Camilo Ortiz",dir:"Calle 127a #13A-21 Apto 504",tel:"3124977884"},
-  {id:"CLI-013",nombre:"Juan Jose Ramirez",dir:"Tran 23 #94-50 Apt 203",tel:"3156319653"},
-  {id:"CLI-014",nombre:"Camilo Polanco",dir:"Carrera 7b 108a 82",tel:"3174345167"},
-  {id:"CLI-015",nombre:"Alfonso Vergara",dir:"Altos de Santa Ana Torre 2 Ap1002",tel:"3108303030"},
-  {id:"CLI-016",nombre:"Ana Maria Frieri",dir:"Hatogrande Reservado Casa 15",tel:"3157942842"},
-  {id:"CLI-017",nombre:"Oscar Gonzáles",dir:"La Alameda Torre 9 apto 904",tel:"3102063902"},
-  {id:"CLI-018",nombre:"Álvaro Paez Rodriguez",dir:"Edificio Santiago El Retiro Apt 101",tel:"3134221913"},
-  {id:"CLI-019",nombre:"Sergio Calderon",dir:"Parque Santana Torre 10 Apt 601",tel:"3184776282"},
-  {id:"CLI-020",nombre:"Dario Angel",dir:"Camino de Santana Torre 3 Apt 802",tel:"3112516778"},
-  {id:"CLI-021",nombre:"Gabriel Ruiz",dir:"Carrera 7b #108a-83",tel:"3157672089"},
-  {id:"CLI-022",nombre:"Ana Constanza Angulo",dir:"OASIS DEL MOCHUELO Apto 203",tel:"3153196387"},
-  {id:"CLI-023",nombre:"Diana Navas",dir:"OASIS DEL MOCHUELO Apto 1005",tel:"3182434317"},
-  {id:"CLI-024",nombre:"Hernando Pereira",dir:"OASIS DEL MOCHUELO Apto 601",tel:"3108710890"},
-  {id:"CLI-025",nombre:"Luis Otero",dir:"OASIS DEL MOCHUELO Apto 202",tel:"3203412156"},
-  {id:"CLI-026",nombre:"Nicolas Faillace",dir:"OASIS DEL MOCHUELO Apto 905",tel:"3158676807"},
-  {id:"CLI-027",nombre:"Gladis Gimenez",dir:"OASIS DEL MOCHUELO Apto 205",tel:"3002673773"},
-  {id:"CLI-028",nombre:"Clara",dir:"OASIS DEL MOCHUELO Apto 904",tel:"3142868741"},
-  {id:"CLI-029",nombre:"Gloria Armedo",dir:"OASIS DEL MOCHUELO Apto 403",tel:"3153087139"},
-  {id:"CLI-030",nombre:"Deisy Peñuela",dir:"Oasis del Mochuelo - administradora",tel:"3102369282"},
-  {id:"CLI-031",nombre:"Fabio Ramirez",dir:"Oasis del Mochuelo - revisor fiscal",tel:"3208545413"},
-  {id:"CLI-032",nombre:"Luz Elena Bernal",dir:"Oasis del Mochuelo - contador",tel:"3132186927"},
-  {id:"CLI-033",nombre:"Gustavo López",dir:"Carrera 5A 108A-38 Apt 108",tel:"3202722222"},
-  {id:"CLI-034",nombre:"Rafael Gamboa",dir:"Calle 102 #16-13 Apt 501",tel:"3153348480"},
-  {id:"CLI-035",nombre:"Maria Lorena Cardenas",dir:"Calle 127 A BIS A #15-85 Apto 105",tel:"3106803805"},
-];
+let CLIENTES = [];
+let PRODUCTOS = [];
+let cantidades = {};
 
-const PRODUCTOS=[
-  {id:"PM-001",nombre:"Pan Tradicional",precio:10000,unidad:"und"},
-  {id:"PM-002",nombre:"Pan Integral",precio:20000,unidad:"und"},
-  {id:"PM-003",nombre:"Pan Molde",precio:20000,unidad:"und"},
-  {id:"PM-004",nombre:"Pan Focaccia",precio:30000,unidad:"und"},
-  {id:"PM-005",nombre:"Pannecook",precio:7000,unidad:"und"},
-  {id:"PM-006",nombre:"Pizza",precio:30000,unidad:"x4 und"},
-];
+document.addEventListener('DOMContentLoaded', iniciarFormulario);
 
-let cantidades={};
-PRODUCTOS.forEach(p=>cantidades[p.id]=0);
+async function iniciarFormulario() {
+  ponerFechaManana();
+  await cargarDatosDesdeSheets();
+}
 
-const sel=document.getElementById('sel-cliente');
-CLIENTES.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.nombre;sel.appendChild(o);});
+function ponerFechaManana() {
+  const manana = new Date();
+  manana.setDate(manana.getDate() + 1);
+  document.getElementById('fecha-entrega').value = manana.toISOString().split('T')[0];
+}
 
-const grid=document.getElementById('productos-grid');
-PRODUCTOS.forEach(p=>{
-  const row=document.createElement('div');
-  row.className='prod-row';row.id='row-'+p.id;
-  row.innerHTML=`<div class="prod-nombre">${p.nombre}</div>
-    <div class="prod-precio">$${p.precio.toLocaleString('es-CO')}<br><span style="font-size:10px">${p.unidad}</span></div>
-    <div class="prod-qty">
-      <button class="qty-btn" onclick="cambiarQty('${p.id}',-1)">−</button>
-      <span class="qty-num" id="qty-${p.id}">0</span>
-      <button class="qty-btn" onclick="cambiarQty('${p.id}',1)">+</button>
-    </div>`;
-  grid.appendChild(row);
-});
+async function cargarDatosDesdeSheets() {
+  const alertEl = document.getElementById('alert-save');
 
-const manana=new Date();manana.setDate(manana.getDate()+1);
-document.getElementById('fecha-entrega').value=manana.toISOString().split('T')[0];
+  try {
+    const resClientes = await fetch(SCRIPT_URL + '?accion=clientes');
+    const jsonClientes = await resClientes.json();
 
-function actualizarCliente(){
-  const id=document.getElementById('sel-cliente').value;
-  const cli=CLIENTES.find(c=>c.id===id);
-  const info=document.getElementById('info-cliente');
-  if(cli){
-    document.getElementById('cli-dir').textContent='📍 '+cli.dir;
-    document.getElementById('cli-tel').textContent='📱 '+cli.tel;
-    info.style.display='block';
-  } else {info.style.display='none';}
+    const resProductos = await fetch(SCRIPT_URL + '?accion=productos');
+    const jsonProductos = await resProductos.json();
+
+    if (!jsonClientes.ok) throw new Error(jsonClientes.error || 'No se pudieron cargar los clientes');
+    if (!jsonProductos.ok) throw new Error(jsonProductos.error || 'No se pudieron cargar los productos');
+
+    CLIENTES = jsonClientes.data;
+    PRODUCTOS = jsonProductos.data;
+
+    pintarClientes();
+    pintarProductos();
+
+    alertEl.className = 'alert alert-ok show';
+    alertEl.textContent = '✅ Clientes y productos cargados correctamente';
+
+  } catch (err) {
+    alertEl.className = 'alert alert-warn show';
+    alertEl.textContent = '❌ Error cargando datos: ' + err.message;
+  }
+}
+
+function pintarClientes() {
+  const sel = document.getElementById('sel-cliente');
+  sel.innerHTML = '<option value="">— Elige un cliente —</option>';
+
+  CLIENTES.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.id;
+    o.textContent = c.nombre;
+    sel.appendChild(o);
+  });
+}
+
+function pintarProductos() {
+  const grid = document.getElementById('productos-grid');
+  grid.innerHTML = '';
+  cantidades = {};
+
+  PRODUCTOS.forEach(p => {
+    cantidades[p.id] = 0;
+
+    const precio = Number(p.precio) || 0;
+
+    const row = document.createElement('div');
+    row.className = 'prod-row';
+    row.id = 'row-' + p.id;
+
+    row.innerHTML = `
+      <div class="prod-nombre">${p.nombre}</div>
+      <div class="prod-precio">
+        $${precio.toLocaleString('es-CO')}<br>
+        <span style="font-size:10px">${p.unidad || ''}</span>
+      </div>
+      <div class="prod-qty">
+        <button class="qty-btn" onclick="cambiarQty('${p.id}',-1)">−</button>
+        <span class="qty-num" id="qty-${p.id}">0</span>
+        <button class="qty-btn" onclick="cambiarQty('${p.id}',1)">+</button>
+      </div>
+    `;
+
+    grid.appendChild(row);
+  });
+}
+
+function actualizarCliente() {
+  const id = document.getElementById('sel-cliente').value;
+  const cli = CLIENTES.find(c => c.id === id);
+  const info = document.getElementById('info-cliente');
+
+  if (cli) {
+    document.getElementById('cli-dir').textContent = '📍 ' + (cli.direccion || '');
+    document.getElementById('cli-tel').textContent = '📱 ' + (cli.telefono || '');
+    info.style.display = 'block';
+  } else {
+    info.style.display = 'none';
+  }
+
   validarBtns();
 }
 
-function cambiarQty(id,delta){
-  cantidades[id]=Math.max(0,cantidades[id]+delta);
-  document.getElementById('qty-'+id).textContent=cantidades[id];
-  document.getElementById('row-'+id).classList.toggle('activo',cantidades[id]>0);
-  actualizarResumen();validarBtns();
+function cambiarQty(id, delta) {
+  cantidades[id] = Math.max(0, (cantidades[id] || 0) + delta);
+
+  document.getElementById('qty-' + id).textContent = cantidades[id];
+  document.getElementById('row-' + id).classList.toggle('activo', cantidades[id] > 0);
+
+  actualizarResumen();
+  validarBtns();
 }
 
-function actualizarResumen(){
-  const items=PRODUCTOS.filter(p=>cantidades[p.id]>0);
-  const card=document.getElementById('card-resumen');
-  if(!items.length){card.style.display='none';return;}
-  card.style.display='block';
-  let total=0,html='';
-  items.forEach(p=>{const sub=p.precio*cantidades[p.id];total+=sub;
-    html+=`<div class="resumen-row"><span class="resumen-prod">${cantidades[p.id]}× ${p.nombre}</span><span>$${sub.toLocaleString('es-CO')}</span></div>`;});
-  document.getElementById('resumen-items').innerHTML=html;
-  document.getElementById('total-valor').textContent='$'+total.toLocaleString('es-CO');
+function actualizarResumen() {
+  const items = PRODUCTOS.filter(p => cantidades[p.id] > 0);
+  const card = document.getElementById('card-resumen');
+
+  if (!items.length) {
+    card.style.display = 'none';
+    return;
+  }
+
+  card.style.display = 'block';
+
+  let total = 0;
+  let html = '';
+
+  items.forEach(p => {
+    const precio = Number(p.precio) || 0;
+    const sub = precio * cantidades[p.id];
+    total += sub;
+
+    html += `
+      <div class="resumen-row">
+        <span class="resumen-prod">${cantidades[p.id]}× ${p.nombre}</span>
+        <span>$${sub.toLocaleString('es-CO')}</span>
+      </div>
+    `;
+  });
+
+  document.getElementById('resumen-items').innerHTML = html;
+  document.getElementById('total-valor').textContent = '$' + total.toLocaleString('es-CO');
 }
 
-function validarBtns(){
-  const ok=document.getElementById('sel-cliente').value&&PRODUCTOS.some(p=>cantidades[p.id]>0);
-  document.getElementById('btn-guardar').disabled=!ok;
-  document.getElementById('btn-whatsapp').disabled=!ok;
+function validarBtns() {
+  const ok = document.getElementById('sel-cliente').value &&
+             PRODUCTOS.some(p => cantidades[p.id] > 0);
+
+  document.getElementById('btn-guardar').disabled = !ok;
+  document.getElementById('btn-whatsapp').disabled = !ok;
 }
 
-function construirPedido(){
-  const cliId=document.getElementById('sel-cliente').value;
-  const cli=CLIENTES.find(c=>c.id===cliId);
-  const fecha=document.getElementById('fecha-entrega').value;
-  const pago=document.getElementById('estado-pago').value;
-  const notas=document.getElementById('notas').value;
-  const items=PRODUCTOS.filter(p=>cantidades[p.id]>0);
-  let total=0;
-  const lineas=items.map(p=>{const sub=p.precio*cantidades[p.id];total+=sub;
-    return cantidades[p.id]+'x '+p.nombre+' ($'+sub.toLocaleString('es-CO')+')';});
-  return {idPedido:'PED-'+Date.now().toString().slice(-6),cli,cliId,fecha,pago,notas,items,lineas,total,
-    fechaHoy:new Date().toLocaleDateString('es-CO')};
+function construirPedido() {
+  const cliId = document.getElementById('sel-cliente').value;
+  const cli = CLIENTES.find(c => c.id === cliId);
+  const fecha = document.getElementById('fecha-entrega').value;
+  const pago = document.getElementById('estado-pago').value;
+  const notas = document.getElementById('notas').value;
+  const items = PRODUCTOS.filter(p => cantidades[p.id] > 0);
+
+  let total = 0;
+
+  const lineas = items.map(p => {
+    const precio = Number(p.precio) || 0;
+    const sub = precio * cantidades[p.id];
+    total += sub;
+    return cantidades[p.id] + 'x ' + p.nombre + ' ($' + sub.toLocaleString('es-CO') + ')';
+  });
+
+  return {
+    idPedido: 'PED-' + Date.now().toString().slice(-6),
+    cli,
+    cliId,
+    fecha,
+    pago,
+    notas,
+    items,
+    lineas,
+    total,
+    fechaHoy: new Date().toLocaleDateString('es-CO')
+  };
 }
 
-async function guardarEnSheets(){
+async function guardarEnSheets() {
   const p = construirPedido();
   const btn = document.getElementById('btn-guardar');
   const alertEl = document.getElementById('alert-save');
@@ -245,12 +319,13 @@ async function guardarEnSheets(){
   btn.disabled = true;
 
   const params = new URLSearchParams({
+    accion: 'guardarPedido',
     id_pedido: p.idPedido,
     fecha_pedido: p.fechaHoy,
     id_cliente: p.cliId,
     nombre_cliente: p.cli.nombre,
-    telefono: p.cli.tel,
-    direccion: p.cli.dir,
+    telefono: p.cli.telefono || '',
+    direccion: p.cli.direccion || '',
     productos: p.lineas.join(' | '),
     total: p.total,
     fecha_entrega: p.fecha,
@@ -289,47 +364,64 @@ async function guardarEnSheets(){
     btn.innerHTML = '💾 Guardar en Sheets';
     btn.disabled = false;
   }
-};
-
-  try{
-    const res=await fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'});
-    alertEl.className='alert alert-ok show';
-    alertEl.textContent='✅ Pedido '+p.idPedido+' guardado en BD_PEDIDOS';
-    btn.innerHTML='✓ Guardado';
-    btn.style.background='#2d6a4f';
-    setTimeout(()=>{
-      btn.innerHTML='💾 Guardar en Sheets';
-      btn.style.background='#2d6a4f';
-      btn.disabled=false;
-    },3000);
-  } catch(err){
-    alertEl.className='alert alert-warn show';
-    alertEl.textContent='❌ Error al guardar: '+err.message;
-    btn.innerHTML='💾 Guardar en Sheets';
-    btn.disabled=false;
-  }
 }
 
-function generarWhatsApp(){
-  const p=construirPedido();
-  const fechaFmt=p.fecha
-    ?new Date(p.fecha+'T12:00:00').toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'})
-    :'por confirmar';
-  const pagoLabel={Pendiente:'💳 Pago pendiente',Pagado:'✅ Pagado',Seña:'⚡ Seña recibida'}[p.pago];
-  let lineasFmt=p.items.map(prod=>`  • ${cantidades[prod.id]}× ${prod.nombre} → $${(prod.precio*cantidades[prod.id]).toLocaleString('es-CO')}`).join('\n');
-  let msg=`🍞 *PEDIDO PANADERÍA*\n━━━━━━━━━━━━━━━━━━\n👤 ${p.cli.nombre}\n📍 ${p.cli.dir}\n📅 Entrega: ${fechaFmt}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *Total: $${p.total.toLocaleString('es-CO')}*\n${pagoLabel}`;
-  if(p.notas) msg+=`\n📝 ${p.notas}`;
-  const prev=document.getElementById('pedido-preview');
-  prev.textContent=msg;prev.classList.add('show');
-  document.getElementById('btn-copy').style.display='inline-block';
-  document.getElementById('wa-nota').style.display='block';
+function generarWhatsApp() {
+  const p = construirPedido();
+
+  const fechaFmt = p.fecha
+    ? new Date(p.fecha + 'T12:00:00').toLocaleDateString('es-CO', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+      })
+    : 'por confirmar';
+
+  const pagoLabel = {
+    Pendiente: '💳 Pago pendiente',
+    Pagado: '✅ Pagado',
+    Seña: '⚡ Seña recibida'
+  }[p.pago];
+
+  const lineasFmt = p.items.map(prod => {
+    const precio = Number(prod.precio) || 0;
+    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio * cantidades[prod.id]).toLocaleString('es-CO')}`;
+  }).join('\n');
+
+  let msg = `🍞 *PEDIDO PANADERÍA*
+━━━━━━━━━━━━━━━━━━
+👤 ${p.cli.nombre}
+📍 ${p.cli.direccion || ''}
+📅 Entrega: ${fechaFmt}
+━━━━━━━━━━━━━━━━━━
+${lineasFmt}
+━━━━━━━━━━━━━━━━━━
+💰 *Total: $${p.total.toLocaleString('es-CO')}*
+${pagoLabel}`;
+
+  if (p.notas) msg += `\n📝 ${p.notas}`;
+
+  const prev = document.getElementById('pedido-preview');
+  prev.textContent = msg;
+  prev.classList.add('show');
+
+  document.getElementById('btn-copy').style.display = 'inline-block';
+  document.getElementById('wa-nota').style.display = 'block';
 }
 
-function copiarMensaje(){
-  navigator.clipboard.writeText(document.getElementById('pedido-preview').textContent).then(()=>{
-    const b=document.getElementById('btn-copy');
-    b.textContent='✓ Copiado';
-    setTimeout(()=>b.textContent='📋 Copiar mensaje',2000);
+function copiarMensaje() {
+  navigator.clipboard.writeText(
+    document.getElementById('pedido-preview').textContent
+  ).then(() => {
+    const b = document.getElementById('btn-copy');
+    b.textContent = '✓ Copiado';
+
+    setTimeout(() => {
+      b.textContent = '📋 Copiar mensaje';
+    }, 2000);
   });
 }
 </script>
+
+</body>
+</html>
