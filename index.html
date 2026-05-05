@@ -124,7 +124,7 @@ select:focus,input:focus{border-color:#c8521a}
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSgoSlIjzcoELyaoOtSbR4DI02cFHHTEyTuC4gjoxjUXO9hNmIC5qZ624_poXehKed/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhLumrnd6uLQ8ncwcArdvHXCtVCoNXTxoHrDvSBn3JeUXn4r8kY62kUgzwLH86GkI7jg/exec';
 
 let CLIENTES = [];
 let PRODUCTOS = [];
@@ -143,15 +143,35 @@ function ponerFechaManana() {
   document.getElementById('fecha-entrega').value = manana.toISOString().split('T')[0];
 }
 
+function cargarJSONP(accion) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+    window[callbackName] = function(data) {
+      delete window[callbackName];
+      script.remove();
+      resolve(data);
+    };
+
+    const script = document.createElement('script');
+    script.src = SCRIPT_URL + '?accion=' + encodeURIComponent(accion) + '&callback=' + callbackName;
+
+    script.onerror = function() {
+      delete window[callbackName];
+      script.remove();
+      reject(new Error('No se pudo cargar ' + accion));
+    };
+
+    document.body.appendChild(script);
+  });
+}
+
 async function cargarDatosDesdeSheets() {
   const alertEl = document.getElementById('alert-save');
 
   try {
-    const resClientes = await fetch(SCRIPT_URL + '?accion=clientes');
-    const jsonClientes = await resClientes.json();
-
-    const resProductos = await fetch(SCRIPT_URL + '?accion=productos');
-    const jsonProductos = await resProductos.json();
+    const jsonClientes = await cargarJSONP('clientes');
+    const jsonProductos = await cargarJSONP('productos');
 
     if (!jsonClientes.ok) throw new Error(jsonClientes.error || 'No se pudieron cargar los clientes');
     if (!jsonProductos.ok) throw new Error(jsonProductos.error || 'No se pudieron cargar los productos');
@@ -170,7 +190,6 @@ async function cargarDatosDesdeSheets() {
     alertEl.textContent = '❌ Error cargando datos: ' + err.message;
   }
 }
-
 function pintarClientes() {
   const sel = document.getElementById('sel-cliente');
   sel.innerHTML = '<option value="">— Elige un cliente —</option>';
@@ -335,11 +354,7 @@ async function guardarEnSheets() {
   });
 
   try {
-    const res = await fetch(SCRIPT_URL + '?' + params.toString(), {
-      method: 'GET'
-    });
-
-    const data = await res.json();
+    const data = await cargarJSONPConParams(params);
 
     if (!data.ok) {
       throw new Error(data.error || 'No se pudo guardar el pedido');
@@ -353,7 +368,6 @@ async function guardarEnSheets() {
 
     setTimeout(() => {
       btn.innerHTML = '💾 Guardar en Sheets';
-      btn.style.background = '#2d6a4f';
       btn.disabled = false;
     }, 3000);
 
@@ -365,6 +379,31 @@ async function guardarEnSheets() {
     btn.disabled = false;
   }
 }
+function cargarJSONPConParams(params) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+    params.set('callback', callbackName);
+
+    window[callbackName] = function(data) {
+      delete window[callbackName];
+      script.remove();
+      resolve(data);
+    };
+
+    const script = document.createElement('script');
+    script.src = SCRIPT_URL + '?' + params.toString();
+
+    script.onerror = function() {
+      delete window[callbackName];
+      script.remove();
+      reject(new Error('No se pudo conectar con Apps Script'));
+    };
+
+    document.body.appendChild(script);
+  });
+}
+  
 
 function generarWhatsApp() {
   const p = construirPedido();
