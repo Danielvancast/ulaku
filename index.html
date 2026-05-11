@@ -549,6 +549,9 @@ function ponerFechaHoy() {
   document.getElementById('sub-fecha-inicio').value = hoy.toISOString().split('T')[0];
 }
 
+// ── MODO: 'unico' genera pedido directo en BD_PEDIDOS
+//         'suscripcion' guarda contrato en BD_SUSCRIPCIONES
+//         El trigger diario lee BD_SUSCRIPCIONES y genera en BD_PEDIDOS automáticamente
 // ── TOGGLE MODO ───────────────────────────────────────────
 
 function setModo(modo) {
