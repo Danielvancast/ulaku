@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ULAKU | Sistema de Pedidos</title>
-
 <link rel="icon" href="icono-ulaku.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#c8521a">
@@ -17,6 +15,7 @@
   --primary:#c8521a;
   --green:#2d6a4f;
   --blue:#3a6ea5;
+  --purple:#6b46c1;
   --bg:#f5f1eb;
   --card:#fff;
   --border:#e0d9cf;
@@ -67,6 +66,57 @@ h1{
   font-size:13px;
 }
 
+/* ── MODE TOGGLE ─────────────────────────────── */
+.mode-toggle{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:4px;
+  gap:4px;
+  margin-bottom:12px;
+}
+
+.mode-btn{
+  padding:10px;
+  border:none;
+  border-radius:9px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  background:transparent;
+  color:var(--muted);
+  transition:all .2s;
+}
+
+.mode-btn.active{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(200,82,26,.25);
+}
+
+.mode-btn.active.sub-mode{
+  background:var(--purple);
+  box-shadow:0 2px 8px rgba(107,70,193,.25);
+}
+
+/* ── BADGE SUSCRIPCIÓN ───────────────────────── */
+.sub-badge{
+  display:inline-block;
+  background:var(--purple);
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:20px;
+  letter-spacing:.05em;
+  vertical-align:middle;
+  margin-left:6px;
+}
+
+/* ── CARD ────────────────────────────────────── */
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -74,6 +124,12 @@ h1{
   padding:16px;
   margin-bottom:12px;
   box-shadow:0 2px 8px rgba(0,0,0,.06);
+  transition:border-color .2s;
+}
+
+.card.sub-active{
+  border-color:var(--purple);
+  box-shadow:0 2px 12px rgba(107,70,193,.12);
 }
 
 label{
@@ -100,10 +156,15 @@ input[type=date]{
   outline:none;
 }
 
-select:focus,
-input:focus{
+select:focus, input:focus{
   border-color:var(--primary);
   box-shadow:0 0 0 3px rgba(200,82,26,.12);
+}
+
+.sub-mode-active select:focus,
+.sub-mode-active input:focus{
+  border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(107,70,193,.12);
 }
 
 .fecha-row{
@@ -112,6 +173,37 @@ input:focus{
   gap:10px;
 }
 
+/* ── SECCIÓN RECURRENCIA ─────────────────────── */
+#seccion-recurrencia{
+  display:none;
+  margin-top:10px;
+  padding-top:12px;
+  border-top:1px dashed var(--border);
+}
+
+#seccion-recurrencia.show{ display:block }
+
+.recurrencia-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.recurrencia-preview{
+  margin-top:10px;
+  background:#f3f0f9;
+  border:1px solid #d6c9f0;
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:12px;
+  color:var(--purple);
+  line-height:1.7;
+  display:none;
+}
+
+.recurrencia-preview.show{ display:block }
+
+/* ── PRODUCTOS ───────────────────────────────── */
 .prod-row{
   display:flex;
   align-items:center;
@@ -123,16 +215,10 @@ input:focus{
   margin-bottom:8px;
 }
 
-.prod-row.activo{
-  border-color:var(--primary);
-  background:#fdf0e8;
-}
+.prod-row.activo{ border-color:var(--primary); background:#fdf0e8; }
+.prod-row.activo.sub-activo{ border-color:var(--purple); background:#f5f0fd; }
 
-.prod-nombre{
-  flex:1;
-  font-weight:600;
-  font-size:14px;
-}
+.prod-nombre{ flex:1; font-weight:600; font-size:14px; }
 
 .prod-precio{
   color:var(--muted);
@@ -141,69 +227,46 @@ input:focus{
   text-align:right;
 }
 
-.prod-qty{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
+.prod-qty{ display:flex; align-items:center; gap:7px; }
 
 .qty-btn{
-  width:38px;
-  height:38px;
+  width:38px; height:38px;
   border:1px solid var(--border);
   border-radius:50%;
   background:#fff;
   cursor:pointer;
   font-size:22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex; align-items:center; justify-content:center;
 }
 
-.qty-btn:hover{
-  background:var(--primary);
-  border-color:var(--primary);
-  color:#fff;
-}
+.qty-btn:hover{ background:var(--primary); border-color:var(--primary); color:#fff; }
+.sub-mode-active .qty-btn:hover{ background:var(--purple); border-color:var(--purple); }
 
-.qty-num{
-  min-width:24px;
-  text-align:center;
-  font-weight:700;
-  font-size:16px;
-}
+.qty-num{ min-width:24px; text-align:center; font-weight:700; font-size:16px; }
 
-.divider{
-  height:1px;
-  background:var(--border);
-  margin:10px 0;
-}
+.divider{ height:1px; background:var(--border); margin:10px 0; }
 
-.resumen-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:14px;
-  padding:4px 0;
-  gap:12px;
-}
+.resumen-row{ display:flex; justify-content:space-between; font-size:14px; padding:4px 0; gap:12px; }
 
 .resumen-row.total{
-  font-weight:700;
-  font-size:18px;
-  color:var(--primary);
-  padding-top:8px;
-  border-top:2px solid var(--primary);
+  font-weight:700; font-size:18px; color:var(--primary);
+  padding-top:8px; border-top:2px solid var(--primary);
 }
 
-.resumen-prod{
-  color:var(--muted);
-}
+.resumen-row.total.sub-total{ color:var(--purple); border-top-color:var(--purple); }
 
+.resumen-prod{ color:var(--muted); }
+
+/* ── BOTONES ─────────────────────────────────── */
 .btns{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   gap:8px;
   margin-top:4px;
+}
+
+.btns.sub-btns{
+  grid-template-columns:1fr 1fr;
 }
 
 .btn{
@@ -217,15 +280,15 @@ input:focus{
   color:#fff;
 }
 
-.btn:disabled{
-  opacity:.35;
-  cursor:not-allowed;
-}
+.btn:disabled{ opacity:.35; cursor:not-allowed; }
 
-.btn-primary{background:var(--primary)}
-.btn-secondary{background:var(--green)}
-.btn-calendar{background:var(--blue)}
+.btn-primary  { background:var(--primary); }
+.btn-secondary{ background:var(--green);   }
+.btn-calendar { background:var(--blue);    }
+.btn-sub      { background:var(--purple);  }
+.btn-sub-wa   { background:var(--green);   }
 
+/* ── ALERTAS ─────────────────────────────────── */
 .alert{
   border-radius:8px;
   padding:10px 12px;
@@ -234,128 +297,67 @@ input:focus{
   display:none;
 }
 
-.alert.show{display:block}
-
-.alert-warn{
-  background:#fdecea;
-  border:1px solid #f5c6c2;
-  color:#c0392b;
-}
-
-.alert-ok{
-  background:#e9f5ef;
-  border:1px solid #b7dfc9;
-  color:var(--green);
-}
+.alert.show{ display:block }
+.alert-warn{ background:#fdecea; border:1px solid #f5c6c2; color:#c0392b; }
+.alert-ok  { background:#e9f5ef; border:1px solid #b7dfc9; color:var(--green); }
+.alert-sub { background:#f3f0f9; border:1px solid #d6c9f0; color:var(--purple); }
 
 .pedido-preview{
-  background:#1e1e1e;
-  color:#e8e4de;
-  border-radius:8px;
-  padding:14px;
-  font-size:12px;
-  line-height:1.8;
-  font-family:monospace;
-  margin-top:10px;
-  white-space:pre-wrap;
-  display:none;
+  background:#1e1e1e; color:#e8e4de;
+  border-radius:8px; padding:14px;
+  font-size:12px; line-height:1.8;
+  font-family:monospace; margin-top:10px;
+  white-space:pre-wrap; display:none;
 }
 
-.pedido-preview.show{display:block}
+.pedido-preview.show{ display:block }
 
 .copy-btn{
-  background:transparent;
-  border:1px solid #555;
-  color:#888;
-  border-radius:6px;
-  padding:6px 12px;
-  font-size:12px;
-  cursor:pointer;
-  margin-top:8px;
-  font-family:'DM Sans',sans-serif;
-  display:none;
+  background:transparent; border:1px solid #555;
+  color:#888; border-radius:6px;
+  padding:6px 12px; font-size:12px;
+  cursor:pointer; margin-top:8px;
+  font-family:'DM Sans',sans-serif; display:none;
 }
 
-.section-title{
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:10px;
-}
+.section-title{ font-size:14px; font-weight:700; margin-bottom:10px; }
 
 .spinner{
-  display:inline-block;
-  width:13px;
-  height:13px;
+  display:inline-block; width:13px; height:13px;
   border:2px solid rgba(255,255,255,.3);
-  border-top-color:#fff;
-  border-radius:50%;
+  border-top-color:#fff; border-radius:50%;
   animation:spin .7s linear infinite;
-  vertical-align:middle;
-  margin-right:4px;
+  vertical-align:middle; margin-right:4px;
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin{ to{ transform:rotate(360deg) } }
 
 .info-cli{
-  margin-top:8px;
-  font-size:12px;
-  color:var(--muted);
-  display:none;
-  line-height:1.8;
-  background:var(--soft);
-  padding:8px 10px;
-  border-radius:6px;
-  border:1px solid var(--border);
+  margin-top:8px; font-size:12px; color:var(--muted);
+  display:none; line-height:1.8;
+  background:var(--soft); padding:8px 10px;
+  border-radius:6px; border:1px solid var(--border);
 }
 
 .wa-nota{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:8px;
-  line-height:1.5;
-  display:none;
+  font-size:11px; color:var(--muted);
+  margin-top:8px; line-height:1.5; display:none;
 }
 
 @media(max-width:700px){
-  body{
-    padding:12px;
-  }
-
-  .btns{
-    grid-template-columns:1fr;
-  }
-
-  .fecha-row{
-    grid-template-columns:1fr;
-  }
-
-  .prod-row{
-    display:grid;
-    grid-template-columns:1fr auto;
-  }
-
-  .prod-precio{
-    text-align:left;
-  }
-
-  .prod-qty{
-    grid-column:1 / -1;
-    justify-content:space-between;
-  }
-
-  .qty-btn{
-    width:44px;
-    height:44px;
-  }
-
-  .btn{
-    font-size:16px;
-    padding:16px;
-  }
+  body{ padding:12px; }
+  .btns{ grid-template-columns:1fr; }
+  .btns.sub-btns{ grid-template-columns:1fr; }
+  .fecha-row{ grid-template-columns:1fr; }
+  .recurrencia-grid{ grid-template-columns:1fr; }
+  .prod-row{ display:grid; grid-template-columns:1fr auto; }
+  .prod-precio{ text-align:left; }
+  .prod-qty{ grid-column:1 / -1; justify-content:space-between; }
+  .qty-btn{ width:44px; height:44px; }
+  .btn{ font-size:16px; padding:16px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="brand-header">
@@ -368,8 +370,20 @@ input:focus{
 
 <div id="alert-save" class="alert"></div>
 
-<div class="card">
-  <p class="section-title">Cliente</p>
+<!-- ── TOGGLE MODO ─────────────────────────── -->
+<div class="mode-toggle">
+  <button class="mode-btn active" id="btn-modo-unico" onclick="setModo('unico')">
+    📦 Pedido único
+  </button>
+  <button class="mode-btn" id="btn-modo-sub" onclick="setModo('suscripcion')">
+    🔁 Suscripción
+  </button>
+</div>
+
+<!-- ── CLIENTE ─────────────────────────────── -->
+<div class="card" id="card-cliente">
+  <p class="section-title" id="titulo-cliente">Cliente</p>
+
   <label>Seleccionar cliente</label>
   <select id="sel-cliente" onchange="actualizarCliente()">
     <option value="">Cargando clientes...</option>
@@ -381,57 +395,122 @@ input:focus{
   </div>
 </div>
 
-<div class="card">
+<!-- ── PRODUCTOS ──────────────────────────── -->
+<div class="card" id="card-productos">
   <p class="section-title">Productos</p>
   <div id="productos-grid">Cargando productos...</div>
 </div>
 
-<div class="card">
-  <p class="section-title">Entrega</p>
+<!-- ── ENTREGA ────────────────────────────── -->
+<div class="card" id="card-entrega">
+  <p class="section-title" id="titulo-entrega">Entrega</p>
 
-  <div class="fecha-row">
-    <div>
-      <label>Fecha de entrega</label>
-      <input type="date" id="fecha-entrega">
+  <!-- Pedido único: fecha + estado pago -->
+  <div id="seccion-unico">
+    <div class="fecha-row">
+      <div>
+        <label>Fecha de entrega</label>
+        <input type="date" id="fecha-entrega">
+      </div>
+      <div>
+        <label>Estado de pago</label>
+        <select id="estado-pago">
+          <option value="Pendiente">Pendiente</option>
+          <option value="Pagado">Pagado ✓</option>
+          <option value="Seña">Seña recibida</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label>Notas</label>
+      <input type="text" id="notas-unico" placeholder="Observaciones del pedido...">
+    </div>
+  </div>
+
+  <!-- Suscripción: frecuencia + día + fechas + estado pago -->
+  <div id="seccion-recurrencia">
+    <div class="recurrencia-grid">
+      <div>
+        <label>Frecuencia</label>
+        <select id="sub-frecuencia" onchange="actualizarPreviewSub()">
+          <option value="semanal">Cada semana</option>
+          <option value="quincenal">Cada 2 semanas</option>
+          <option value="mensual">Mensual</option>
+        </select>
+      </div>
+      <div>
+        <label>Día de entrega</label>
+        <select id="sub-dia" onchange="actualizarPreviewSub()">
+          <option value="lunes">Lunes</option>
+          <option value="martes">Martes</option>
+          <option value="miércoles">Miércoles</option>
+          <option value="jueves">Jueves</option>
+          <option value="viernes">Viernes</option>
+          <option value="sábado">Sábado</option>
+        </select>
+      </div>
+      <div>
+        <label>Fecha de inicio</label>
+        <input type="date" id="sub-fecha-inicio" onchange="actualizarPreviewSub()">
+      </div>
+      <div>
+        <label>Fecha de fin (opcional)</label>
+        <input type="date" id="sub-fecha-fin">
+      </div>
     </div>
 
-    <div>
+    <div style="margin-top:10px">
       <label>Estado de pago</label>
-      <select id="estado-pago">
+      <select id="sub-estado-pago">
         <option value="Pendiente">Pendiente</option>
         <option value="Pagado">Pagado ✓</option>
         <option value="Seña">Seña recibida</option>
       </select>
     </div>
-  </div>
 
-  <div style="margin-top:10px">
-    <label>Notas</label>
-    <input type="text" id="notas" placeholder="Observaciones del pedido...">
+    <div style="margin-top:10px">
+      <label>Notas</label>
+      <input type="text" id="notas-sub" placeholder="Observaciones de la suscripción...">
+    </div>
+
+    <div class="recurrencia-preview" id="preview-recurrencia"></div>
   </div>
 </div>
 
+<!-- ── RESUMEN ────────────────────────────── -->
 <div class="card" id="card-resumen" style="display:none">
   <p class="section-title">Resumen</p>
   <div id="resumen-items"></div>
   <div class="divider"></div>
-  <div class="resumen-row total">
+  <div class="resumen-row total" id="resumen-total-row">
     <span>Total</span>
     <span id="total-valor">$0</span>
   </div>
+  <div id="resumen-frecuencia" style="display:none;font-size:12px;color:var(--purple);margin-top:6px;"></div>
 </div>
 
+<!-- ── BOTONES ────────────────────────────── -->
 <div class="card">
-  <div class="btns">
+
+  <!-- Botones pedido único -->
+  <div class="btns" id="btns-unico">
     <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>
       💾 Guardar
     </button>
-
     <button class="btn btn-calendar" id="btn-calendar" onclick="crearEventoCalendar()" disabled>
       📅 Calendar
     </button>
-
     <button class="btn btn-primary" id="btn-whatsapp" onclick="generarWhatsApp()" disabled>
+      💬 WhatsApp
+    </button>
+  </div>
+
+  <!-- Botones suscripción -->
+  <div class="btns sub-btns" id="btns-sub" style="display:none">
+    <button class="btn btn-sub" id="btn-guardar-sub" onclick="guardarSuscripcionSheets()" disabled>
+      🔁 Crear suscripción
+    </button>
+    <button class="btn btn-sub-wa" id="btn-whatsapp-sub" onclick="generarWhatsAppSub()" disabled>
       💬 WhatsApp
     </button>
   </div>
@@ -444,14 +523,18 @@ input:focus{
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhLumrnd6uLQ8ncwcArdvHXCtVCoNXTxoHrDvSBn3JeUXn4r8kY62kUgzwLH86GkI7jg/exec';
 
-let CLIENTES = [];
+let CLIENTES  = [];
 let PRODUCTOS = [];
 let cantidades = {};
+let MODO = 'unico'; // 'unico' | 'suscripcion'
 
 document.addEventListener('DOMContentLoaded', iniciarFormulario);
 
+// ── INICIO ────────────────────────────────────────────────
+
 async function iniciarFormulario() {
   ponerFechaManana();
+  ponerFechaHoy();
   await cargarDatosDesdeSheets();
 }
 
@@ -461,25 +544,86 @@ function ponerFechaManana() {
   document.getElementById('fecha-entrega').value = manana.toISOString().split('T')[0];
 }
 
+function ponerFechaHoy() {
+  const hoy = new Date();
+  document.getElementById('sub-fecha-inicio').value = hoy.toISOString().split('T')[0];
+}
+
+// ── TOGGLE MODO ───────────────────────────────────────────
+
+function setModo(modo) {
+  MODO = modo;
+  const esSub = modo === 'suscripcion';
+
+  document.getElementById('btn-modo-unico').className = 'mode-btn' + (!esSub ? ' active' : '');
+  document.getElementById('btn-modo-sub').className   = 'mode-btn' + (esSub  ? ' active sub-mode' : '');
+
+  document.getElementById('seccion-unico').style.display        = esSub ? 'none' : 'block';
+  document.getElementById('seccion-recurrencia').className       = 'seccion-recurrencia' + (esSub ? ' show' : '');
+  document.getElementById('btns-unico').style.display            = esSub ? 'none'  : 'grid';
+  document.getElementById('btns-sub').style.display              = esSub ? 'grid'  : 'none';
+
+  // Resaltar cards si es suscripción
+  ['card-cliente','card-productos','card-entrega','card-resumen'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('sub-active', esSub);
+  });
+
+  document.getElementById('titulo-entrega').innerHTML = esSub
+    ? 'Recurrencia <span class="sub-badge">SUSCRIPCIÓN</span>'
+    : 'Entrega';
+
+  document.getElementById('titulo-cliente').innerHTML = esSub
+    ? 'Cliente <span class="sub-badge">SUSCRIPCIÓN</span>'
+    : 'Cliente';
+
+  // Actualizar resumen y clase total
+  document.getElementById('resumen-total-row').className = esSub
+    ? 'resumen-row total sub-total'
+    : 'resumen-row total';
+
+  actualizarResumen();
+  validarBtns();
+  if (esSub) actualizarPreviewSub();
+}
+
+// ── PREVIEW RECURRENCIA ───────────────────────────────────
+
+function actualizarPreviewSub() {
+  const frecuencia = document.getElementById('sub-frecuencia').value;
+  const dia        = document.getElementById('sub-dia').value;
+  const inicio     = document.getElementById('sub-fecha-inicio').value;
+  const preview    = document.getElementById('preview-recurrencia');
+
+  const freqLabel = { semanal:'cada semana', quincenal:'cada dos semanas', mensual:'cada mes' };
+
+  if (inicio) {
+    const fechaInicio = new Date(inicio + 'T12:00:00').toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
+    preview.innerHTML =
+      `🔁 <strong>Se entregará ${freqLabel[frecuencia]}</strong> los <strong>${dia}</strong><br>` +
+      `📅 Desde el ${fechaInicio}`;
+    preview.classList.add('show');
+  } else {
+    preview.classList.remove('show');
+  }
+}
+
+// ── JSONP ─────────────────────────────────────────────────
+
 function cargarJSONP(accion) {
   return new Promise((resolve, reject) => {
     const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     const script = document.createElement('script');
-
     window[callbackName] = function(data) {
       delete window[callbackName];
       script.remove();
       resolve(data);
     };
-
     script.src = SCRIPT_URL + '?accion=' + encodeURIComponent(accion) + '&callback=' + callbackName;
-
     script.onerror = function() {
-      delete window[callbackName];
-      script.remove();
+      delete window[callbackName]; script.remove();
       reject(new Error('No se pudo cargar ' + accion));
     };
-
     document.body.appendChild(script);
   });
 }
@@ -488,46 +632,37 @@ function cargarJSONPConParams(params) {
   return new Promise((resolve, reject) => {
     const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     const script = document.createElement('script');
-
     params.set('callback', callbackName);
-
     window[callbackName] = function(data) {
-      delete window[callbackName];
-      script.remove();
+      delete window[callbackName]; script.remove();
       resolve(data);
     };
-
     script.src = SCRIPT_URL + '?' + params.toString();
-
     script.onerror = function() {
-      delete window[callbackName];
-      script.remove();
+      delete window[callbackName]; script.remove();
       reject(new Error('No se pudo conectar con Apps Script'));
     };
-
     document.body.appendChild(script);
   });
 }
 
+// ── CARGA DE DATOS ────────────────────────────────────────
+
 async function cargarDatosDesdeSheets() {
   const alertEl = document.getElementById('alert-save');
-
   try {
-    const jsonClientes = await cargarJSONP('clientes');
-    const jsonProductos = await cargarJSONP('productos');
-
+    const [jsonClientes, jsonProductos] = await Promise.all([
+      cargarJSONP('clientes'),
+      cargarJSONP('productos')
+    ]);
     if (!jsonClientes.ok) throw new Error(jsonClientes.error || 'No se pudieron cargar los clientes');
     if (!jsonProductos.ok) throw new Error(jsonProductos.error || 'No se pudieron cargar los productos');
-
-    CLIENTES = jsonClientes.data;
+    CLIENTES  = jsonClientes.data;
     PRODUCTOS = jsonProductos.data;
-
     pintarClientes();
     pintarProductos();
-
     alertEl.className = 'alert alert-ok show';
     alertEl.textContent = '✅ Clientes y productos cargados correctamente';
-
   } catch (err) {
     alertEl.className = 'alert alert-warn show';
     alertEl.textContent = '❌ Error cargando datos: ' + err.message;
@@ -537,7 +672,6 @@ async function cargarDatosDesdeSheets() {
 function pintarClientes() {
   const sel = document.getElementById('sel-cliente');
   sel.innerHTML = '<option value="">— Elige un cliente —</option>';
-
   CLIENTES.forEach(c => {
     const o = document.createElement('option');
     o.value = c.id;
@@ -550,15 +684,12 @@ function pintarProductos() {
   const grid = document.getElementById('productos-grid');
   grid.innerHTML = '';
   cantidades = {};
-
   PRODUCTOS.forEach(p => {
     cantidades[p.id] = 0;
     const precio = Number(p.precio) || 0;
-
     const row = document.createElement('div');
     row.className = 'prod-row';
     row.id = 'row-' + p.id;
-
     row.innerHTML = `
       <div class="prod-nombre">${p.nombre}</div>
       <div class="prod-precio">
@@ -571,16 +702,14 @@ function pintarProductos() {
         <button class="qty-btn" onclick="cambiarQty('${p.id}',1)">+</button>
       </div>
     `;
-
     grid.appendChild(row);
   });
 }
 
 function actualizarCliente() {
-  const id = document.getElementById('sel-cliente').value;
+  const id  = document.getElementById('sel-cliente').value;
   const cli = CLIENTES.find(c => c.id === id);
   const info = document.getElementById('info-cliente');
-
   if (cli) {
     document.getElementById('cli-dir').textContent = '📍 ' + (cli.direccion || '');
     document.getElementById('cli-tel').textContent = '📱 ' + (cli.telefono || '');
@@ -588,39 +717,34 @@ function actualizarCliente() {
   } else {
     info.style.display = 'none';
   }
-
   validarBtns();
 }
 
 function cambiarQty(id, delta) {
   cantidades[id] = Math.max(0, (cantidades[id] || 0) + delta);
-
   document.getElementById('qty-' + id).textContent = cantidades[id];
-  document.getElementById('row-' + id).classList.toggle('activo', cantidades[id] > 0);
-
+  const row = document.getElementById('row-' + id);
+  row.classList.toggle('activo',     cantidades[id] > 0);
+  row.classList.toggle('sub-activo', cantidades[id] > 0 && MODO === 'suscripcion');
   actualizarResumen();
   validarBtns();
 }
 
 function actualizarResumen() {
   const items = PRODUCTOS.filter(p => cantidades[p.id] > 0);
-  const card = document.getElementById('card-resumen');
+  const card  = document.getElementById('card-resumen');
+  const freqEl = document.getElementById('resumen-frecuencia');
 
-  if (!items.length) {
-    card.style.display = 'none';
-    return;
-  }
-
+  if (!items.length) { card.style.display = 'none'; return; }
   card.style.display = 'block';
 
   let total = 0;
-  let html = '';
+  let html  = '';
 
   items.forEach(p => {
     const precio = Number(p.precio) || 0;
-    const sub = precio * cantidades[p.id];
+    const sub    = precio * cantidades[p.id];
     total += sub;
-
     html += `
       <div class="resumen-row">
         <span class="resumen-prod">${cantidades[p.id]}× ${p.nombre}</span>
@@ -631,205 +755,258 @@ function actualizarResumen() {
 
   document.getElementById('resumen-items').innerHTML = html;
   document.getElementById('total-valor').textContent = '$' + total.toLocaleString('es-CO');
+
+  if (MODO === 'suscripcion') {
+    const frecuencia = document.getElementById('sub-frecuencia').value;
+    const freqLabel  = { semanal:'semana', quincenal:'2 semanas', mensual:'mes' };
+    freqEl.textContent = '🔁 $' + total.toLocaleString('es-CO') + ' por ' + freqLabel[frecuencia];
+    freqEl.style.display = 'block';
+  } else {
+    freqEl.style.display = 'none';
+  }
 }
 
 function validarBtns() {
-  const ok = document.getElementById('sel-cliente').value &&
-             PRODUCTOS.some(p => cantidades[p.id] > 0);
+  const clienteOk  = !!document.getElementById('sel-cliente').value;
+  const productosOk = PRODUCTOS.some(p => cantidades[p.id] > 0);
+  const ok = clienteOk && productosOk;
 
-  document.getElementById('btn-guardar').disabled = !ok;
-  document.getElementById('btn-calendar').disabled = !ok;
-  document.getElementById('btn-whatsapp').disabled = !ok;
+  document.getElementById('btn-guardar').disabled      = !ok;
+  document.getElementById('btn-calendar').disabled     = !ok;
+  document.getElementById('btn-whatsapp').disabled     = !ok;
+  document.getElementById('btn-guardar-sub').disabled  = !ok;
+  document.getElementById('btn-whatsapp-sub').disabled = !ok;
 }
 
-function construirPedido() {
-  const cliId = document.getElementById('sel-cliente').value;
-  const cli = CLIENTES.find(c => c.id === cliId);
-  const fecha = document.getElementById('fecha-entrega').value;
-  const pago = document.getElementById('estado-pago').value;
-  const notas = document.getElementById('notas').value;
-  const items = PRODUCTOS.filter(p => cantidades[p.id] > 0);
+// ── CONSTRUIR PEDIDO ──────────────────────────────────────
 
+function construirPedido() {
+  const cliId  = document.getElementById('sel-cliente').value;
+  const cli    = CLIENTES.find(c => c.id === cliId);
+  const fecha  = document.getElementById('fecha-entrega').value;
+  const pago   = document.getElementById('estado-pago').value;
+  const notas  = document.getElementById('notas-unico').value;
+  const items  = PRODUCTOS.filter(p => cantidades[p.id] > 0);
   let total = 0;
 
   const detalle = items.map(p => {
-    const precio = Number(p.precio) || 0;
+    const precio   = Number(p.precio) || 0;
     const cantidad = cantidades[p.id];
     const subtotal = precio * cantidad;
-
     total += subtotal;
-
-    return {
-      codigo_producto: p.id,
-      producto: p.nombre,
-      cantidad: cantidad,
-      valor_unitario: precio,
-      subtotal: subtotal
-    };
+    return { codigo_producto: p.id, producto: p.nombre, cantidad, valor_unitario: precio, subtotal };
   });
 
-  const lineas = detalle.map(item => {
-    return item.cantidad + 'x ' + item.producto + ' ($' + item.subtotal.toLocaleString('es-CO') + ')';
-  });
+  const lineas = detalle.map(item => item.cantidad + 'x ' + item.producto + ' ($' + item.subtotal.toLocaleString('es-CO') + ')');
 
   return {
     idPedido: 'PED-' + Date.now().toString().slice(-6),
-    cli,
-    cliId,
-    fecha,
-    pago,
-    notas,
-    items,
-    detalle,
-    lineas,
-    total,
+    cli, cliId, fecha, pago, notas, items, detalle, lineas, total,
     fechaHoy: new Date().toLocaleDateString('es-CO')
   };
 }
 
+function construirSuscripcion() {
+  const cliId      = document.getElementById('sel-cliente').value;
+  const cli        = CLIENTES.find(c => c.id === cliId);
+  const frecuencia = document.getElementById('sub-frecuencia').value;
+  const dia        = document.getElementById('sub-dia').value;
+  const fechaIni   = document.getElementById('sub-fecha-inicio').value;
+  const fechaFin   = document.getElementById('sub-fecha-fin').value;
+  const pago       = document.getElementById('sub-estado-pago').value;
+  const notas      = document.getElementById('notas-sub').value;
+  const items      = PRODUCTOS.filter(p => cantidades[p.id] > 0);
+  let total = 0;
+
+  const detalle = items.map(p => {
+    const precio   = Number(p.precio) || 0;
+    const cantidad = cantidades[p.id];
+    const subtotal = precio * cantidad;
+    total += subtotal;
+    return { codigo_producto: p.id, producto: p.nombre, cantidad, valor_unitario: precio, subtotal };
+  });
+
+  return { cli, cliId, frecuencia, dia, fechaIni, fechaFin, pago, notas, items, detalle, total };
+}
+
+// ── GUARDAR PEDIDO ÚNICO ──────────────────────────────────
+
+function armarParamsPedido(p, accion) {
+  return new URLSearchParams({
+    accion,
+    id_pedido:       p.idPedido,
+    fecha_pedido:    p.fechaHoy,
+    id_cliente:      p.cliId,
+    nombre_cliente:  p.cli.nombre,
+    telefono:        p.cli.telefono || '',
+    direccion:       p.cli.direccion || '',
+    productos:       p.lineas.join(' | '),
+    detalle_productos: JSON.stringify(p.detalle),
+    total:           p.total,
+    fecha_entrega:   p.fecha,
+    estado_pago:     p.pago,
+    notas:           p.notas || '',
+    estado_pedido:   'Pendiente',
+    origen:          'unico'
+  });
+}
+
 async function guardarEnSheets() {
-  const p = construirPedido();
-  const btn = document.getElementById('btn-guardar');
+  const p     = construirPedido();
+  const btn   = document.getElementById('btn-guardar');
   const alertEl = document.getElementById('alert-save');
 
   btn.innerHTML = '<span class="spinner"></span>Guardando...';
-  btn.disabled = true;
+  btn.disabled  = true;
 
   const params = armarParamsPedido(p, 'guardarPedido');
 
   try {
     const data = await cargarJSONPConParams(params);
-
     if (!data.ok) throw new Error(data.error || 'No se pudo guardar el pedido');
-
-    alertEl.className = 'alert alert-ok show';
+    alertEl.className   = 'alert alert-ok show';
     alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado correctamente';
-
     btn.innerHTML = '✓ Guardado';
-
-    setTimeout(() => {
-      btn.innerHTML = '💾 Guardar';
-      btn.disabled = false;
-    }, 3000);
-
+    setTimeout(() => { btn.innerHTML = '💾 Guardar'; btn.disabled = false; }, 3000);
   } catch (err) {
-    alertEl.className = 'alert alert-warn show';
+    alertEl.className   = 'alert alert-warn show';
     alertEl.textContent = '❌ Error al guardar: ' + err.message;
-
     btn.innerHTML = '💾 Guardar';
-    btn.disabled = false;
+    btn.disabled  = false;
   }
 }
 
 async function crearEventoCalendar() {
-  const p = construirPedido();
+  const p   = construirPedido();
   const btn = document.getElementById('btn-calendar');
   const alertEl = document.getElementById('alert-save');
 
   btn.innerHTML = '<span class="spinner"></span>Creando...';
-  btn.disabled = true;
+  btn.disabled  = true;
 
   const params = armarParamsPedido(p, 'crearCalendar');
 
   try {
     const data = await cargarJSONPConParams(params);
-
     if (!data.ok) throw new Error(data.error || 'No se pudo crear el evento');
-
-    alertEl.className = 'alert alert-ok show';
+    alertEl.className   = 'alert alert-ok show';
     alertEl.textContent = '✅ Evento creado en Google Calendar';
-
     btn.innerHTML = '✓ Calendar';
-
-    setTimeout(() => {
-      btn.innerHTML = '📅 Calendar';
-      btn.disabled = false;
-    }, 3000);
-
+    setTimeout(() => { btn.innerHTML = '📅 Calendar'; btn.disabled = false; }, 3000);
   } catch (err) {
-    alertEl.className = 'alert alert-warn show';
+    alertEl.className   = 'alert alert-warn show';
     alertEl.textContent = '❌ Error Calendar: ' + err.message;
-
     btn.innerHTML = '📅 Calendar';
-    btn.disabled = false;
+    btn.disabled  = false;
   }
 }
 
-function armarParamsPedido(p, accion) {
-  return new URLSearchParams({
-    accion: accion,
-    id_pedido: p.idPedido,
-    fecha_pedido: p.fechaHoy,
-    id_cliente: p.cliId,
-    nombre_cliente: p.cli.nombre,
-    telefono: p.cli.telefono || '',
-    direccion: p.cli.direccion || '',
-    productos: p.lineas.join(' | '),
-    detalle_productos: JSON.stringify(p.detalle),
-    total: p.total,
-    fecha_entrega: p.fecha,
-    estado_pago: p.pago,
-    notas: p.notas || '',
-    estado_pedido: 'Pendiente'
+// ── GUARDAR SUSCRIPCIÓN ───────────────────────────────────
+
+async function guardarSuscripcionSheets() {
+  const s   = construirSuscripcion();
+  const btn = document.getElementById('btn-guardar-sub');
+  const alertEl = document.getElementById('alert-save');
+
+  if (!s.fechaIni) {
+    alertEl.className   = 'alert alert-warn show';
+    alertEl.textContent = '⚠️ Debes ingresar una fecha de inicio para la suscripción';
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span>Guardando...';
+  btn.disabled  = true;
+
+  const params = new URLSearchParams({
+    accion:            'guardarSuscripcion',
+    id_cliente:        s.cliId,
+    nombre_cliente:    s.cli.nombre,
+    telefono:          s.cli.telefono || '',
+    direccion:         s.cli.direccion || '',
+    detalle_productos: JSON.stringify(s.detalle),
+    total:             s.total,
+    frecuencia:        s.frecuencia,
+    dia_entrega:       s.dia,
+    fecha_inicio:      s.fechaIni,
+    fecha_fin:         s.fechaFin || '',
+    estado_pago:       s.pago,
+    notas:             s.notas || ''
   });
+
+  try {
+    const data = await cargarJSONPConParams(params);
+    if (!data.ok) throw new Error(data.error || 'No se pudo guardar la suscripción');
+    alertEl.className   = 'alert alert-sub show';
+    alertEl.textContent = '🔁 Suscripción ' + data.id_suscripcion + ' creada para ' + s.cli.nombre;
+    btn.innerHTML = '✓ Creada';
+    setTimeout(() => { btn.innerHTML = '🔁 Crear suscripción'; btn.disabled = false; }, 3000);
+  } catch (err) {
+    alertEl.className   = 'alert alert-warn show';
+    alertEl.textContent = '❌ Error al guardar suscripción: ' + err.message;
+    btn.innerHTML = '🔁 Crear suscripción';
+    btn.disabled  = false;
+  }
 }
+
+// ── WHATSAPP ──────────────────────────────────────────────
 
 function generarWhatsApp() {
   const p = construirPedido();
 
   const fechaFmt = p.fecha
-    ? new Date(p.fecha + 'T12:00:00').toLocaleDateString('es-CO', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long'
-      })
+    ? new Date(p.fecha + 'T12:00:00').toLocaleDateString('es-CO', { weekday:'long', day:'numeric', month:'long' })
     : 'por confirmar';
 
-  const pagoLabel = {
-    Pendiente: '💳 Pago pendiente',
-    Pagado: '✅ Pagado',
-    Seña: '⚡ Seña recibida'
-  }[p.pago];
+  const pagoLabel = { Pendiente:'💳 Pago pendiente', Pagado:'✅ Pagado', Seña:'⚡ Seña recibida' }[p.pago];
 
   const lineasFmt = p.items.map(prod => {
     const precio = Number(prod.precio) || 0;
     return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio * cantidades[prod.id]).toLocaleString('es-CO')}`;
   }).join('\n');
 
-  let msg = `*PEDIDO ULAKU*
-━━━━━━━━━━━━━━━━━━
-👤 ${p.cli.nombre}
-📍 ${p.cli.direccion || ''}
-📅 Entrega: ${fechaFmt}
-━━━━━━━━━━━━━━━━━━
-${lineasFmt}
-━━━━━━━━━━━━━━━━━━
-💰 *Total: $${p.total.toLocaleString('es-CO')}*
-${pagoLabel}`;
+  let msg = `*PEDIDO ULAKU*\n━━━━━━━━━━━━━━━━━━\n👤 ${p.cli.nombre}\n📍 ${p.cli.direccion || ''}\n📅 Entrega: ${fechaFmt}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *Total: $${p.total.toLocaleString('es-CO')}*\n${pagoLabel}`;
 
   if (p.notas) msg += `\n📝 ${p.notas}`;
 
+  mostrarPreview(msg);
+}
+
+function generarWhatsAppSub() {
+  const s = construirSuscripcion();
+
+  const freqLabel = { semanal:'cada semana', quincenal:'cada 2 semanas', mensual:'mensual' };
+
+  const lineasFmt = s.items.map(prod => {
+    const precio = Number(prod.precio) || 0;
+    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio * cantidades[prod.id]).toLocaleString('es-CO')}`;
+  }).join('\n');
+
+  const fechaIniStr = s.fechaIni
+    ? new Date(s.fechaIni + 'T12:00:00').toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' })
+    : 'por confirmar';
+
+  let msg = `*SUSCRIPCIÓN ULAKU* 🔁\n━━━━━━━━━━━━━━━━━━\n👤 ${s.cli.nombre}\n📍 ${s.cli.direccion || ''}\n🔁 ${freqLabel[s.frecuencia]} — ${s.dia}\n📅 Desde: ${fechaIniStr}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *$${s.total.toLocaleString('es-CO')} por entrega*`;
+
+  if (s.notas) msg += `\n📝 ${s.notas}`;
+
+  mostrarPreview(msg);
+}
+
+function mostrarPreview(msg) {
   const prev = document.getElementById('pedido-preview');
   prev.textContent = msg;
   prev.classList.add('show');
-
   document.getElementById('btn-copy').style.display = 'inline-block';
-  document.getElementById('wa-nota').style.display = 'block';
+  document.getElementById('wa-nota').style.display  = 'block';
 }
 
 function copiarMensaje() {
-  navigator.clipboard.writeText(
-    document.getElementById('pedido-preview').textContent
-  ).then(() => {
+  navigator.clipboard.writeText(document.getElementById('pedido-preview').textContent).then(() => {
     const b = document.getElementById('btn-copy');
     b.textContent = '✓ Copiado';
-
-    setTimeout(() => {
-      b.textContent = '📋 Copiar mensaje';
-    }, 2000);
+    setTimeout(() => { b.textContent = '📋 Copiar mensaje'; }, 2000);
   });
 }
 </script>
-
 </body>
 </html>
