@@ -1408,6 +1408,7 @@ async function guardarEnSheets() {
     alertEl.className   = 'alert alert-ok show';
     alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado correctamente';
     btn.innerHTML = '✓ Guardado';
+    limpiarFormulario();
     setTimeout(() => { btn.innerHTML = '💾 Guardar'; btn.disabled = false; }, 3000);
   } catch (err) {
     alertEl.className   = 'alert alert-warn show';
@@ -1480,6 +1481,7 @@ async function guardarSuscripcionSheets() {
     alertEl.className   = 'alert alert-sub show';
     alertEl.textContent = '🔁 Suscripción ' + data.id_suscripcion + ' creada para ' + s.cli.nombre;
     btn.innerHTML = '✓ Creada';
+    limpiarFormulario();
     setTimeout(() => { btn.innerHTML = '🔁 Crear suscripción'; btn.disabled = false; }, 3000);
   } catch (err) {
     alertEl.className   = 'alert alert-warn show';
@@ -1487,6 +1489,56 @@ async function guardarSuscripcionSheets() {
     btn.innerHTML = '🔁 Crear suscripción';
     btn.disabled  = false;
   }
+}
+
+// ─────────────────────────────────────────────────────
+//  LIMPIAR FORMULARIO
+// ─────────────────────────────────────────────────────
+
+function limpiarFormulario() {
+  // Cliente
+  document.getElementById('sel-cliente').value = '';
+  document.getElementById('info-cliente').style.display = 'none';
+
+  // Cantidades y UI de productos
+  PRODUCTOS.forEach(p => {
+    cantidades[p.id] = 0;
+    const numEl = document.getElementById('qty-' + p.id);
+    const rowEl = document.getElementById('row-' + p.id);
+    if (numEl) numEl.textContent = '0';
+    if (rowEl) { rowEl.classList.remove('activo','sub-activo'); }
+  });
+
+  // Fechas
+  ponerFechaManana();
+  ponerFechaHoy();
+
+  // Selects de pago
+  document.getElementById('estado-pago').value    = 'Pendiente';
+  document.getElementById('sub-estado-pago').value = 'Pendiente';
+
+  // Suscripción
+  document.getElementById('sub-frecuencia').value  = 'semanal';
+  document.getElementById('sub-dia').value         = 'lunes';
+  document.getElementById('sub-fecha-fin').value   = '';
+  document.getElementById('notas-unico').value     = '';
+  document.getElementById('notas-sub').value       = '';
+  document.getElementById('preview-recurrencia').classList.remove('show');
+
+  // Resumen
+  document.getElementById('card-resumen').style.display = 'none';
+
+  // Preview WhatsApp
+  document.getElementById('pedido-preview').classList.remove('show');
+  document.getElementById('btn-copy').style.display    = 'none';
+  document.getElementById('wa-nota').style.display     = 'none';
+
+  // Alert
+  setTimeout(() => {
+    document.getElementById('alert-save').className = 'alert';
+  }, 3000);
+
+  validarBtns();
 }
 
 // ─────────────────────────────────────────────────────
