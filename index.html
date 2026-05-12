@@ -16,6 +16,7 @@
   --green:#2d6a4f;
   --blue:#3a6ea5;
   --purple:#6b46c1;
+  --gold:#b8860b;
   --bg:#f5f1eb;
   --card:#fff;
   --border:#e0d9cf;
@@ -44,8 +45,7 @@ body{
 }
 
 .brand-logo{
-  width:48px;
-  height:48px;
+  width:48px; height:48px;
   object-fit:contain;
   border-radius:12px;
   background:#fff;
@@ -61,12 +61,45 @@ h1{
   line-height:1;
 }
 
-.subtitle{
-  color:var(--muted);
-  font-size:13px;
+.subtitle{ color:var(--muted); font-size:13px; }
+
+/* ── NAV TABS ─────────────────────────────── */
+.nav-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:4px;
+  gap:4px;
+  margin-bottom:12px;
 }
 
-/* ── MODE TOGGLE ─────────────────────────────── */
+.nav-tab{
+  padding:10px;
+  border:none;
+  border-radius:9px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  background:transparent;
+  color:var(--muted);
+  transition:all .2s;
+}
+
+.nav-tab.active{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(200,82,26,.25);
+}
+
+.nav-tab.active.tab-cartera{
+  background:var(--gold);
+  box-shadow:0 2px 8px rgba(184,134,11,.25);
+}
+
+/* ── MODE TOGGLE ─────────────────────────── */
 .mode-toggle{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -102,7 +135,7 @@ h1{
   box-shadow:0 2px 8px rgba(107,70,193,.25);
 }
 
-/* ── BADGE SUSCRIPCIÓN ───────────────────────── */
+/* ── BADGE ───────────────────────────────── */
 .sub-badge{
   display:inline-block;
   background:var(--purple);
@@ -116,7 +149,7 @@ h1{
   margin-left:6px;
 }
 
-/* ── CARD ────────────────────────────────────── */
+/* ── CARD ────────────────────────────────── */
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -144,7 +177,8 @@ label{
 
 select,
 input[type=text],
-input[type=date]{
+input[type=date],
+input[type=number]{
   width:100%;
   border:1px solid var(--border);
   border-radius:8px;
@@ -173,7 +207,7 @@ select:focus, input:focus{
   gap:10px;
 }
 
-/* ── SECCIÓN RECURRENCIA ─────────────────────── */
+/* ── RECURRENCIA ─────────────────────────── */
 #seccion-recurrencia{
   display:none;
   margin-top:10px;
@@ -203,7 +237,7 @@ select:focus, input:focus{
 
 .recurrencia-preview.show{ display:block }
 
-/* ── PRODUCTOS ───────────────────────────────── */
+/* ── PRODUCTOS ───────────────────────────── */
 .prod-row{
   display:flex;
   align-items:center;
@@ -257,7 +291,7 @@ select:focus, input:focus{
 
 .resumen-prod{ color:var(--muted); }
 
-/* ── BOTONES ─────────────────────────────────── */
+/* ── BOTONES ─────────────────────────────── */
 .btns{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
@@ -265,9 +299,7 @@ select:focus, input:focus{
   margin-top:4px;
 }
 
-.btns.sub-btns{
-  grid-template-columns:1fr 1fr;
-}
+.btns.sub-btns{ grid-template-columns:1fr 1fr; }
 
 .btn{
   padding:15px;
@@ -287,8 +319,10 @@ select:focus, input:focus{
 .btn-calendar { background:var(--blue);    }
 .btn-sub      { background:var(--purple);  }
 .btn-sub-wa   { background:var(--green);   }
+.btn-gold     { background:var(--gold);    }
+.btn-danger   { background:#c0392b;        }
 
-/* ── ALERTAS ─────────────────────────────────── */
+/* ── ALERTAS ─────────────────────────────── */
 .alert{
   border-radius:8px;
   padding:10px 12px;
@@ -344,6 +378,407 @@ select:focus, input:focus{
   margin-top:8px; line-height:1.5; display:none;
 }
 
+/* ── CARTERA ─────────────────────────────── */
+#tab-cartera-view{ display:none; }
+
+.cartera-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.cartera-total{
+  background:linear-gradient(135deg,#b8860b,#d4a017);
+  color:#fff;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:12px;
+  text-align:center;
+}
+
+.cartera-total .ct-label{
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  opacity:.85;
+  margin-bottom:4px;
+}
+
+.cartera-total .ct-monto{
+  font-family:'DM Serif Display',serif;
+  font-size:32px;
+  line-height:1;
+}
+
+.cartera-total .ct-clientes{
+  font-size:12px;
+  opacity:.8;
+  margin-top:4px;
+}
+
+.cli-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:8px;
+  cursor:pointer;
+  transition:border-color .2s, box-shadow .2s;
+}
+
+.cli-card:hover{
+  border-color:var(--gold);
+  box-shadow:0 2px 12px rgba(184,134,11,.15);
+}
+
+.cli-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.cli-card-nombre{
+  font-weight:700;
+  font-size:15px;
+  flex:1;
+}
+
+.cli-card-saldo{
+  font-weight:700;
+  font-size:16px;
+  color:#c0392b;
+  white-space:nowrap;
+}
+
+.cli-card-meta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.cli-card-bar-bg{
+  height:4px;
+  background:var(--border);
+  border-radius:4px;
+  margin-top:8px;
+  overflow:hidden;
+}
+
+.cli-card-bar{
+  height:100%;
+  background:linear-gradient(90deg,#e67e22,#c0392b);
+  border-radius:4px;
+  transition:width .4s ease;
+}
+
+/* ── ESTADO DE CUENTA ────────────────────── */
+#estado-cuenta-view{ display:none; }
+
+.ec-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.btn-back{
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--text);
+}
+
+.ec-resumen{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.ec-kpi{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  text-align:center;
+}
+
+.ec-kpi-label{
+  font-size:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+.ec-kpi-valor{
+  font-weight:700;
+  font-size:16px;
+}
+
+.ec-kpi-valor.rojo{ color:#c0392b; }
+.ec-kpi-valor.verde{ color:var(--green); }
+
+.ped-item{
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:8px;
+  background:var(--soft);
+}
+
+.ped-item.saldado{
+  border-color:#b7dfc9;
+  background:#f0faf4;
+  opacity:.7;
+}
+
+.ped-item-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:8px;
+}
+
+.ped-item-id{
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+}
+
+.ped-item-fecha{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.ped-item-saldo{
+  font-weight:700;
+  font-size:15px;
+  white-space:nowrap;
+}
+
+.ped-item-saldo.pendiente{ color:#c0392b; }
+.ped-item-saldo.saldado{ color:var(--green); }
+
+.ped-item-barra{
+  margin:8px 0 6px;
+  height:6px;
+  background:var(--border);
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.ped-item-barra-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--green),#52be80);
+  border-radius:6px;
+}
+
+.ped-item-meta{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.ped-pagos-list{
+  margin-top:6px;
+  padding-top:6px;
+  border-top:1px dashed var(--border);
+}
+
+.ped-pago-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--green);
+  padding:2px 0;
+}
+
+/* ── FORMULARIO PAGO ─────────────────────── */
+.pago-form{
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-top:12px;
+}
+
+.pago-form-title{
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:10px;
+  color:var(--gold);
+}
+
+.pago-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+/* ── MODAL RECIBO ────────────────────────── */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+.modal-overlay.show{
+  display:flex;
+}
+
+.modal{
+  background:#fff;
+  border-radius:14px;
+  padding:24px;
+  max-width:400px;
+  width:100%;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+/* ── RECIBO IMPRIMIBLE ───────────────────── */
+.recibo{
+  font-family:'DM Sans',sans-serif;
+  color:#1a1a1a;
+}
+
+.recibo-header{
+  text-align:center;
+  padding-bottom:12px;
+  border-bottom:2px solid #c8521a;
+  margin-bottom:14px;
+}
+
+.recibo-marca{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  color:#c8521a;
+  margin-bottom:2px;
+}
+
+.recibo-sub{
+  font-size:11px;
+  color:#7a7570;
+}
+
+.recibo-id{
+  text-align:center;
+  font-size:11px;
+  color:#7a7570;
+  margin-bottom:14px;
+}
+
+.recibo-section{
+  margin-bottom:12px;
+}
+
+.recibo-section-title{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:#7a7570;
+  margin-bottom:6px;
+  border-bottom:1px solid #e0d9cf;
+  padding-bottom:3px;
+}
+
+.recibo-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  padding:3px 0;
+}
+
+.recibo-row.bold{ font-weight:700; }
+
+.recibo-total{
+  background:#fdf0e8;
+  border:2px solid #c8521a;
+  border-radius:8px;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:12px 0;
+}
+
+.recibo-total-label{
+  font-size:12px;
+  font-weight:700;
+  color:#c8521a;
+}
+
+.recibo-total-monto{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  color:#c8521a;
+}
+
+.recibo-saldo{
+  background:#fdecea;
+  border:1px solid #f5c6c2;
+  border-radius:8px;
+  padding:8px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.recibo-saldo.saldado{
+  background:#e9f5ef;
+  border-color:#b7dfc9;
+}
+
+.recibo-saldo-label{ font-size:12px; font-weight:600; color:#7a7570; }
+.recibo-saldo-monto{ font-weight:700; font-size:15px; color:#c0392b; }
+.recibo-saldo.saldado .recibo-saldo-monto{ color:var(--green); }
+
+.recibo-aplicaciones{
+  font-size:11px;
+  color:#7a7570;
+  line-height:1.8;
+  background:#f9f9f9;
+  border-radius:6px;
+  padding:8px 10px;
+  margin-bottom:10px;
+}
+
+.recibo-footer{
+  text-align:center;
+  font-size:10px;
+  color:#7a7570;
+  padding-top:10px;
+  border-top:1px solid #e0d9cf;
+  line-height:1.8;
+}
+
+.modal-btns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+}
+
 @media(max-width:700px){
   body{ padding:12px; }
   .btns{ grid-template-columns:1fr; }
@@ -355,6 +790,21 @@ select:focus, input:focus{
   .prod-qty{ grid-column:1 / -1; justify-content:space-between; }
   .qty-btn{ width:44px; height:44px; }
   .btn{ font-size:16px; padding:16px; }
+  .nav-tabs{ grid-template-columns:1fr; }
+  .ec-resumen{ grid-template-columns:1fr; }
+  .pago-grid{ grid-template-columns:1fr; }
+}
+
+@media print{
+  body *{ visibility:hidden; }
+  .recibo, .recibo *{ visibility:visible; }
+  .recibo{
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    padding:20px;
+  }
+  .modal-btns{ display:none; }
 }
 </style>
 </head>
@@ -370,155 +820,240 @@ select:focus, input:focus{
 
 <div id="alert-save" class="alert"></div>
 
-<!-- ── TOGGLE MODO ─────────────────────────── -->
-<div class="mode-toggle">
-  <button class="mode-btn active" id="btn-modo-unico" onclick="setModo('unico')">
-    📦 Pedido único
-  </button>
-  <button class="mode-btn" id="btn-modo-sub" onclick="setModo('suscripcion')">
-    🔁 Suscripción
-  </button>
+<!-- ── NAVEGACIÓN PRINCIPAL ────────────────────── -->
+<div class="nav-tabs">
+  <button class="nav-tab active" id="nav-pedidos" onclick="setTab('pedidos')">📦 Pedidos</button>
+  <button class="nav-tab" id="nav-sub" onclick="setTab('sub')">🔁 Suscripciones</button>
+  <button class="nav-tab tab-cartera" id="nav-cartera" onclick="setTab('cartera')">💰 Cartera</button>
 </div>
 
-<!-- ── CLIENTE ─────────────────────────────── -->
-<div class="card" id="card-cliente">
-  <p class="section-title" id="titulo-cliente">Cliente</p>
+<!-- ═══════════════════════════════════════════════
+     TAB: PEDIDOS + SUSCRIPCIONES (formulario)
+════════════════════════════════════════════════ -->
+<div id="tab-pedidos-view">
 
-  <label>Seleccionar cliente</label>
-  <select id="sel-cliente" onchange="actualizarCliente()">
-    <option value="">Cargando clientes...</option>
-  </select>
-
-  <div class="info-cli" id="info-cliente">
-    <div id="cli-dir"></div>
-    <div id="cli-tel"></div>
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="btn-modo-unico" onclick="setModo('unico')">
+      📦 Pedido único
+    </button>
+    <button class="mode-btn" id="btn-modo-sub" onclick="setModo('suscripcion')">
+      🔁 Suscripción
+    </button>
   </div>
-</div>
 
-<!-- ── PRODUCTOS ──────────────────────────── -->
-<div class="card" id="card-productos">
-  <p class="section-title">Productos</p>
-  <div id="productos-grid">Cargando productos...</div>
-</div>
+  <!-- ── CLIENTE ───────────────────────────────── -->
+  <div class="card" id="card-cliente">
+    <p class="section-title" id="titulo-cliente">Cliente</p>
 
-<!-- ── ENTREGA ────────────────────────────── -->
-<div class="card" id="card-entrega">
-  <p class="section-title" id="titulo-entrega">Entrega</p>
+    <label>Seleccionar cliente</label>
+    <select id="sel-cliente" onchange="actualizarCliente()">
+      <option value="">Cargando clientes...</option>
+    </select>
 
-  <!-- Pedido único: fecha + estado pago -->
-  <div id="seccion-unico">
-    <div class="fecha-row">
-      <div>
-        <label>Fecha de entrega</label>
-        <input type="date" id="fecha-entrega">
+    <div class="info-cli" id="info-cliente">
+      <div id="cli-dir"></div>
+      <div id="cli-tel"></div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCTOS ─────────────────────────────── -->
+  <div class="card" id="card-productos">
+    <p class="section-title">Productos</p>
+    <div id="productos-grid">Cargando productos...</div>
+  </div>
+
+  <!-- ── ENTREGA ───────────────────────────────── -->
+  <div class="card" id="card-entrega">
+    <p class="section-title" id="titulo-entrega">Entrega</p>
+
+    <div id="seccion-unico">
+      <div class="fecha-row">
+        <div>
+          <label>Fecha de entrega</label>
+          <input type="date" id="fecha-entrega">
+        </div>
+        <div>
+          <label>Estado de pago</label>
+          <select id="estado-pago">
+            <option value="Pendiente">Pendiente</option>
+            <option value="Pagado">Pagado ✓</option>
+            <option value="Seña">Seña recibida</option>
+          </select>
+        </div>
       </div>
-      <div>
+      <div style="margin-top:10px">
+        <label>Notas</label>
+        <input type="text" id="notas-unico" placeholder="Observaciones del pedido...">
+      </div>
+    </div>
+
+    <div id="seccion-recurrencia">
+      <div class="recurrencia-grid">
+        <div>
+          <label>Frecuencia</label>
+          <select id="sub-frecuencia" onchange="actualizarPreviewSub()">
+            <option value="semanal">Cada semana</option>
+            <option value="quincenal">Cada 2 semanas</option>
+            <option value="mensual">Mensual</option>
+          </select>
+        </div>
+        <div>
+          <label>Día de entrega</label>
+          <select id="sub-dia" onchange="actualizarPreviewSub()">
+            <option value="lunes">Lunes</option>
+            <option value="martes">Martes</option>
+            <option value="miércoles">Miércoles</option>
+            <option value="jueves">Jueves</option>
+            <option value="viernes">Viernes</option>
+            <option value="sábado">Sábado</option>
+          </select>
+        </div>
+        <div>
+          <label>Fecha de inicio</label>
+          <input type="date" id="sub-fecha-inicio" onchange="actualizarPreviewSub()">
+        </div>
+        <div>
+          <label>Fecha de fin (opcional)</label>
+          <input type="date" id="sub-fecha-fin">
+        </div>
+      </div>
+
+      <div style="margin-top:10px">
         <label>Estado de pago</label>
-        <select id="estado-pago">
+        <select id="sub-estado-pago">
           <option value="Pendiente">Pendiente</option>
           <option value="Pagado">Pagado ✓</option>
           <option value="Seña">Seña recibida</option>
         </select>
       </div>
-    </div>
-    <div style="margin-top:10px">
-      <label>Notas</label>
-      <input type="text" id="notas-unico" placeholder="Observaciones del pedido...">
+
+      <div style="margin-top:10px">
+        <label>Notas</label>
+        <input type="text" id="notas-sub" placeholder="Observaciones de la suscripción...">
+      </div>
+
+      <div class="recurrencia-preview" id="preview-recurrencia"></div>
     </div>
   </div>
 
-  <!-- Suscripción: frecuencia + día + fechas + estado pago -->
-  <div id="seccion-recurrencia">
-    <div class="recurrencia-grid">
-      <div>
-        <label>Frecuencia</label>
-        <select id="sub-frecuencia" onchange="actualizarPreviewSub()">
-          <option value="semanal">Cada semana</option>
-          <option value="quincenal">Cada 2 semanas</option>
-          <option value="mensual">Mensual</option>
-        </select>
-      </div>
-      <div>
-        <label>Día de entrega</label>
-        <select id="sub-dia" onchange="actualizarPreviewSub()">
-          <option value="lunes">Lunes</option>
-          <option value="martes">Martes</option>
-          <option value="miércoles">Miércoles</option>
-          <option value="jueves">Jueves</option>
-          <option value="viernes">Viernes</option>
-          <option value="sábado">Sábado</option>
-        </select>
-      </div>
-      <div>
-        <label>Fecha de inicio</label>
-        <input type="date" id="sub-fecha-inicio" onchange="actualizarPreviewSub()">
-      </div>
-      <div>
-        <label>Fecha de fin (opcional)</label>
-        <input type="date" id="sub-fecha-fin">
-      </div>
+  <!-- ── RESUMEN ───────────────────────────────── -->
+  <div class="card" id="card-resumen" style="display:none">
+    <p class="section-title">Resumen</p>
+    <div id="resumen-items"></div>
+    <div class="divider"></div>
+    <div class="resumen-row total" id="resumen-total-row">
+      <span>Total</span>
+      <span id="total-valor">$0</span>
+    </div>
+    <div id="resumen-frecuencia" style="display:none;font-size:12px;color:var(--purple);margin-top:6px;"></div>
+  </div>
+
+  <!-- ── BOTONES ───────────────────────────────── -->
+  <div class="card">
+    <div class="btns" id="btns-unico">
+      <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>💾 Guardar</button>
+      <button class="btn btn-calendar"  id="btn-calendar" onclick="crearEventoCalendar()" disabled>📅 Calendar</button>
+      <button class="btn btn-primary"   id="btn-whatsapp" onclick="generarWhatsApp()" disabled>💬 WhatsApp</button>
     </div>
 
-    <div style="margin-top:10px">
-      <label>Estado de pago</label>
-      <select id="sub-estado-pago">
-        <option value="Pendiente">Pendiente</option>
-        <option value="Pagado">Pagado ✓</option>
-        <option value="Seña">Seña recibida</option>
-      </select>
+    <div class="btns sub-btns" id="btns-sub" style="display:none">
+      <button class="btn btn-sub"    id="btn-guardar-sub" onclick="guardarSuscripcionSheets()" disabled>🔁 Crear suscripción</button>
+      <button class="btn btn-sub-wa" id="btn-whatsapp-sub" onclick="generarWhatsAppSub()" disabled>💬 WhatsApp</button>
     </div>
 
-    <div style="margin-top:10px">
-      <label>Notas</label>
-      <input type="text" id="notas-sub" placeholder="Observaciones de la suscripción...">
+    <p class="wa-nota" id="wa-nota">Copia este mensaje y pégalo en WhatsApp al cliente.</p>
+    <div id="pedido-preview" class="pedido-preview"></div>
+    <button class="copy-btn" id="btn-copy" onclick="copiarMensaje()">📋 Copiar mensaje</button>
+  </div>
+
+</div><!-- /tab-pedidos-view -->
+
+
+<!-- ═══════════════════════════════════════════════
+     TAB: CARTERA — lista de clientes con saldo
+════════════════════════════════════════════════ -->
+<div id="tab-cartera-view">
+
+  <!-- Cartera general -->
+  <div id="cartera-general-view">
+    <div class="cartera-header">
+      <p class="section-title" style="margin:0">💰 Cartera pendiente</p>
+      <button class="btn btn-gold" style="padding:10px 16px;font-size:13px;" onclick="cargarCartera()">
+        🔄 Actualizar
+      </button>
     </div>
 
-    <div class="recurrencia-preview" id="preview-recurrencia"></div>
+    <div id="cartera-total-box"></div>
+    <div id="cartera-lista">
+      <p style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">
+        Toca "Actualizar" para ver el estado de cartera
+      </p>
+    </div>
+  </div>
+
+  <!-- Estado de cuenta detallado por cliente -->
+  <div id="estado-cuenta-view">
+    <div class="ec-header">
+      <button class="btn-back" onclick="volverCartera()">← Volver</button>
+      <strong id="ec-nombre-cliente" style="font-size:15px"></strong>
+    </div>
+
+    <div class="ec-resumen" id="ec-resumen-kpis"></div>
+
+    <!-- Formulario registro de pago -->
+    <div class="pago-form">
+      <p class="pago-form-title">💳 Registrar pago</p>
+      <div class="pago-grid">
+        <div>
+          <label>Valor recibido</label>
+          <input type="number" id="pago-valor" placeholder="0" min="0" step="1000">
+        </div>
+        <div>
+          <label>Método de pago</label>
+          <select id="pago-metodo">
+            <option value="Efectivo">💵 Efectivo</option>
+            <option value="Transferencia">🏦 Transferencia</option>
+            <option value="Nequi">📱 Nequi</option>
+            <option value="Daviplata">📱 Daviplata</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <label>Notas (opcional)</label>
+        <input type="text" id="pago-notas" placeholder="Referencia, observación...">
+      </div>
+      <button class="btn btn-gold" style="width:100%" id="btn-registrar-pago" onclick="registrarPago()">
+        💰 Registrar pago
+      </button>
+    </div>
+
+    <div style="margin:12px 0 8px">
+      <p class="section-title">Historial de pedidos</p>
+    </div>
+
+    <div id="ec-pedidos-lista"></div>
+  </div>
+
+</div><!-- /tab-cartera-view -->
+
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: RECIBO DE PAGO
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-recibo">
+  <div class="modal">
+    <div class="recibo" id="recibo-contenido"></div>
+    <div class="modal-btns">
+      <button class="btn btn-secondary" onclick="imprimirRecibo()">🖨️ Imprimir</button>
+      <button class="btn btn-primary"   onclick="copiarReciboWA()">💬 WhatsApp</button>
+    </div>
+    <button class="btn" style="background:var(--muted);width:100%;margin-top:8px;font-size:13px" onclick="cerrarModal()">
+      Cerrar
+    </button>
   </div>
 </div>
 
-<!-- ── RESUMEN ────────────────────────────── -->
-<div class="card" id="card-resumen" style="display:none">
-  <p class="section-title">Resumen</p>
-  <div id="resumen-items"></div>
-  <div class="divider"></div>
-  <div class="resumen-row total" id="resumen-total-row">
-    <span>Total</span>
-    <span id="total-valor">$0</span>
-  </div>
-  <div id="resumen-frecuencia" style="display:none;font-size:12px;color:var(--purple);margin-top:6px;"></div>
-</div>
-
-<!-- ── BOTONES ────────────────────────────── -->
-<div class="card">
-
-  <!-- Botones pedido único -->
-  <div class="btns" id="btns-unico">
-    <button class="btn btn-secondary" id="btn-guardar" onclick="guardarEnSheets()" disabled>
-      💾 Guardar
-    </button>
-    <button class="btn btn-calendar" id="btn-calendar" onclick="crearEventoCalendar()" disabled>
-      📅 Calendar
-    </button>
-    <button class="btn btn-primary" id="btn-whatsapp" onclick="generarWhatsApp()" disabled>
-      💬 WhatsApp
-    </button>
-  </div>
-
-  <!-- Botones suscripción -->
-  <div class="btns sub-btns" id="btns-sub" style="display:none">
-    <button class="btn btn-sub" id="btn-guardar-sub" onclick="guardarSuscripcionSheets()" disabled>
-      🔁 Crear suscripción
-    </button>
-    <button class="btn btn-sub-wa" id="btn-whatsapp-sub" onclick="generarWhatsAppSub()" disabled>
-      💬 WhatsApp
-    </button>
-  </div>
-
-  <p class="wa-nota" id="wa-nota">Copia este mensaje y pégalo en WhatsApp al cliente.</p>
-  <div id="pedido-preview" class="pedido-preview"></div>
-  <button class="copy-btn" id="btn-copy" onclick="copiarMensaje()">📋 Copiar mensaje</button>
-</div>
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhLumrnd6uLQ8ncwcArdvHXCtVCoNXTxoHrDvSBn3JeUXn4r8kY62kUgzwLH86GkI7jg/exec';
@@ -526,11 +1061,33 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhLumrnd6uLQ8ncwcAr
 let CLIENTES  = [];
 let PRODUCTOS = [];
 let cantidades = {};
-let MODO = 'unico'; // 'unico' | 'suscripcion'
+let MODO = 'unico';
+let TAB_ACTUAL = 'pedidos';
+let CLIENTE_EC = null; // cliente activo en estado de cuenta
+let RECIBO_TEXTO_WA = '';
 
 document.addEventListener('DOMContentLoaded', iniciarFormulario);
 
-// ── INICIO ────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  TABS
+// ─────────────────────────────────────────────────────
+
+function setTab(tab) {
+  TAB_ACTUAL = tab;
+  document.getElementById('tab-pedidos-view').style.display = (tab === 'pedidos' || tab === 'sub') ? 'block' : 'none';
+  document.getElementById('tab-cartera-view').style.display = tab === 'cartera' ? 'block' : 'none';
+
+  document.getElementById('nav-pedidos').className = 'nav-tab' + (tab === 'pedidos' ? ' active' : '');
+  document.getElementById('nav-sub').className     = 'nav-tab' + (tab === 'sub'     ? ' active' : '');
+  document.getElementById('nav-cartera').className = 'nav-tab tab-cartera' + (tab === 'cartera' ? ' active' : '');
+
+  if (tab === 'sub') setModo('suscripcion');
+  else if (tab === 'pedidos') setModo('unico');
+}
+
+// ─────────────────────────────────────────────────────
+//  INICIO
+// ─────────────────────────────────────────────────────
 
 async function iniciarFormulario() {
   ponerFechaManana();
@@ -539,20 +1096,18 @@ async function iniciarFormulario() {
 }
 
 function ponerFechaManana() {
-  const manana = new Date();
-  manana.setDate(manana.getDate() + 1);
-  document.getElementById('fecha-entrega').value = manana.toISOString().split('T')[0];
+  const m = new Date();
+  m.setDate(m.getDate() + 1);
+  document.getElementById('fecha-entrega').value = m.toISOString().split('T')[0];
 }
 
 function ponerFechaHoy() {
-  const hoy = new Date();
-  document.getElementById('sub-fecha-inicio').value = hoy.toISOString().split('T')[0];
+  document.getElementById('sub-fecha-inicio').value = new Date().toISOString().split('T')[0];
 }
 
-// ── MODO: 'unico' genera pedido directo en BD_PEDIDOS
-//         'suscripcion' guarda contrato en BD_SUSCRIPCIONES
-//         El trigger diario lee BD_SUSCRIPCIONES y genera en BD_PEDIDOS automáticamente
-// ── TOGGLE MODO ───────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  MODO pedido / suscripción
+// ─────────────────────────────────────────────────────
 
 function setModo(modo) {
   MODO = modo;
@@ -561,12 +1116,11 @@ function setModo(modo) {
   document.getElementById('btn-modo-unico').className = 'mode-btn' + (!esSub ? ' active' : '');
   document.getElementById('btn-modo-sub').className   = 'mode-btn' + (esSub  ? ' active sub-mode' : '');
 
-  document.getElementById('seccion-unico').style.display        = esSub ? 'none' : 'block';
-  document.getElementById('seccion-recurrencia').className       = 'seccion-recurrencia' + (esSub ? ' show' : '');
-  document.getElementById('btns-unico').style.display            = esSub ? 'none'  : 'grid';
-  document.getElementById('btns-sub').style.display              = esSub ? 'grid'  : 'none';
+  document.getElementById('seccion-unico').style.display  = esSub ? 'none'  : 'block';
+  document.getElementById('seccion-recurrencia').className = 'seccion-recurrencia' + (esSub ? ' show' : '');
+  document.getElementById('btns-unico').style.display      = esSub ? 'none'  : 'grid';
+  document.getElementById('btns-sub').style.display        = esSub ? 'grid'  : 'none';
 
-  // Resaltar cards si es suscripción
   ['card-cliente','card-productos','card-entrega','card-resumen'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('sub-active', esSub);
@@ -580,7 +1134,6 @@ function setModo(modo) {
     ? 'Cliente <span class="sub-badge">SUSCRIPCIÓN</span>'
     : 'Cliente';
 
-  // Actualizar resumen y clase total
   document.getElementById('resumen-total-row').className = esSub
     ? 'resumen-row total sub-total'
     : 'resumen-row total';
@@ -590,41 +1143,20 @@ function setModo(modo) {
   if (esSub) actualizarPreviewSub();
 }
 
-// ── PREVIEW RECURRENCIA ───────────────────────────────────
-
-function actualizarPreviewSub() {
-  const frecuencia = document.getElementById('sub-frecuencia').value;
-  const dia        = document.getElementById('sub-dia').value;
-  const inicio     = document.getElementById('sub-fecha-inicio').value;
-  const preview    = document.getElementById('preview-recurrencia');
-
-  const freqLabel = { semanal:'cada semana', quincenal:'cada dos semanas', mensual:'cada mes' };
-
-  if (inicio) {
-    const fechaInicio = new Date(inicio + 'T12:00:00').toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
-    preview.innerHTML =
-      `🔁 <strong>Se entregará ${freqLabel[frecuencia]}</strong> los <strong>${dia}</strong><br>` +
-      `📅 Desde el ${fechaInicio}`;
-    preview.classList.add('show');
-  } else {
-    preview.classList.remove('show');
-  }
-}
-
-// ── JSONP ─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  JSONP
+// ─────────────────────────────────────────────────────
 
 function cargarJSONP(accion) {
   return new Promise((resolve, reject) => {
-    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const cbName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     const script = document.createElement('script');
-    window[callbackName] = function(data) {
-      delete window[callbackName];
-      script.remove();
-      resolve(data);
+    window[cbName] = function(data) {
+      delete window[cbName]; script.remove(); resolve(data);
     };
-    script.src = SCRIPT_URL + '?accion=' + encodeURIComponent(accion) + '&callback=' + callbackName;
+    script.src = SCRIPT_URL + '?accion=' + encodeURIComponent(accion) + '&callback=' + cbName;
     script.onerror = function() {
-      delete window[callbackName]; script.remove();
+      delete window[cbName]; script.remove();
       reject(new Error('No se pudo cargar ' + accion));
     };
     document.body.appendChild(script);
@@ -633,23 +1165,24 @@ function cargarJSONP(accion) {
 
 function cargarJSONPConParams(params) {
   return new Promise((resolve, reject) => {
-    const callbackName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const cbName = 'jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     const script = document.createElement('script');
-    params.set('callback', callbackName);
-    window[callbackName] = function(data) {
-      delete window[callbackName]; script.remove();
-      resolve(data);
+    params.set('callback', cbName);
+    window[cbName] = function(data) {
+      delete window[cbName]; script.remove(); resolve(data);
     };
     script.src = SCRIPT_URL + '?' + params.toString();
     script.onerror = function() {
-      delete window[callbackName]; script.remove();
+      delete window[cbName]; script.remove();
       reject(new Error('No se pudo conectar con Apps Script'));
     };
     document.body.appendChild(script);
   });
 }
 
-// ── CARGA DE DATOS ────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  CARGA DATOS
+// ─────────────────────────────────────────────────────
 
 async function cargarDatosDesdeSheets() {
   const alertEl = document.getElementById('alert-save');
@@ -658,16 +1191,16 @@ async function cargarDatosDesdeSheets() {
       cargarJSONP('clientes'),
       cargarJSONP('productos')
     ]);
-    if (!jsonClientes.ok) throw new Error(jsonClientes.error || 'No se pudieron cargar los clientes');
-    if (!jsonProductos.ok) throw new Error(jsonProductos.error || 'No se pudieron cargar los productos');
+    if (!jsonClientes.ok) throw new Error(jsonClientes.error);
+    if (!jsonProductos.ok) throw new Error(jsonProductos.error);
     CLIENTES  = jsonClientes.data;
     PRODUCTOS = jsonProductos.data;
     pintarClientes();
     pintarProductos();
-    alertEl.className = 'alert alert-ok show';
-    alertEl.textContent = '✅ Clientes y productos cargados correctamente';
+    alertEl.className   = 'alert alert-ok show';
+    alertEl.textContent = '✅ Datos cargados correctamente';
   } catch (err) {
-    alertEl.className = 'alert alert-warn show';
+    alertEl.className   = 'alert alert-warn show';
     alertEl.textContent = '❌ Error cargando datos: ' + err.message;
   }
 }
@@ -677,8 +1210,7 @@ function pintarClientes() {
   sel.innerHTML = '<option value="">— Elige un cliente —</option>';
   CLIENTES.forEach(c => {
     const o = document.createElement('option');
-    o.value = c.id;
-    o.textContent = c.nombre;
+    o.value = c.id; o.textContent = c.nombre;
     sel.appendChild(o);
   });
 }
@@ -695,10 +1227,7 @@ function pintarProductos() {
     row.id = 'row-' + p.id;
     row.innerHTML = `
       <div class="prod-nombre">${p.nombre}</div>
-      <div class="prod-precio">
-        $${precio.toLocaleString('es-CO')}<br>
-        <span style="font-size:10px">${p.unidad || ''}</span>
-      </div>
+      <div class="prod-precio">$${precio.toLocaleString('es-CO')}<br><span style="font-size:10px">${p.unidad||''}</span></div>
       <div class="prod-qty">
         <button class="qty-btn" onclick="cambiarQty('${p.id}',-1)">−</button>
         <span class="qty-num" id="qty-${p.id}">0</span>
@@ -715,7 +1244,7 @@ function actualizarCliente() {
   const info = document.getElementById('info-cliente');
   if (cli) {
     document.getElementById('cli-dir').textContent = '📍 ' + (cli.direccion || '');
-    document.getElementById('cli-tel').textContent = '📱 ' + (cli.telefono || '');
+    document.getElementById('cli-tel').textContent = '📱 ' + (cli.telefono  || '');
     info.style.display = 'block';
   } else {
     info.style.display = 'none';
@@ -741,19 +1270,12 @@ function actualizarResumen() {
   if (!items.length) { card.style.display = 'none'; return; }
   card.style.display = 'block';
 
-  let total = 0;
-  let html  = '';
-
+  let total = 0, html = '';
   items.forEach(p => {
     const precio = Number(p.precio) || 0;
     const sub    = precio * cantidades[p.id];
     total += sub;
-    html += `
-      <div class="resumen-row">
-        <span class="resumen-prod">${cantidades[p.id]}× ${p.nombre}</span>
-        <span>$${sub.toLocaleString('es-CO')}</span>
-      </div>
-    `;
+    html += `<div class="resumen-row"><span class="resumen-prod">${cantidades[p.id]}× ${p.nombre}</span><span>$${sub.toLocaleString('es-CO')}</span></div>`;
   });
 
   document.getElementById('resumen-items').innerHTML = html;
@@ -770,10 +1292,9 @@ function actualizarResumen() {
 }
 
 function validarBtns() {
-  const clienteOk  = !!document.getElementById('sel-cliente').value;
+  const clienteOk   = !!document.getElementById('sel-cliente').value;
   const productosOk = PRODUCTOS.some(p => cantidades[p.id] > 0);
   const ok = clienteOk && productosOk;
-
   document.getElementById('btn-guardar').disabled      = !ok;
   document.getElementById('btn-calendar').disabled     = !ok;
   document.getElementById('btn-whatsapp').disabled     = !ok;
@@ -781,15 +1302,32 @@ function validarBtns() {
   document.getElementById('btn-whatsapp-sub').disabled = !ok;
 }
 
-// ── CONSTRUIR PEDIDO ──────────────────────────────────────
+function actualizarPreviewSub() {
+  const frecuencia = document.getElementById('sub-frecuencia').value;
+  const dia        = document.getElementById('sub-dia').value;
+  const inicio     = document.getElementById('sub-fecha-inicio').value;
+  const preview    = document.getElementById('preview-recurrencia');
+  const freqLabel  = { semanal:'cada semana', quincenal:'cada dos semanas', mensual:'cada mes' };
+  if (inicio) {
+    const fechaInicio = new Date(inicio + 'T12:00:00').toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
+    preview.innerHTML = `🔁 <strong>Se entregará ${freqLabel[frecuencia]}</strong> los <strong>${dia}</strong><br>📅 Desde el ${fechaInicio}`;
+    preview.classList.add('show');
+  } else {
+    preview.classList.remove('show');
+  }
+}
+
+// ─────────────────────────────────────────────────────
+//  CONSTRUIR PEDIDO / SUSCRIPCIÓN
+// ─────────────────────────────────────────────────────
 
 function construirPedido() {
-  const cliId  = document.getElementById('sel-cliente').value;
-  const cli    = CLIENTES.find(c => c.id === cliId);
-  const fecha  = document.getElementById('fecha-entrega').value;
-  const pago   = document.getElementById('estado-pago').value;
-  const notas  = document.getElementById('notas-unico').value;
-  const items  = PRODUCTOS.filter(p => cantidades[p.id] > 0);
+  const cliId = document.getElementById('sel-cliente').value;
+  const cli   = CLIENTES.find(c => c.id === cliId);
+  const fecha = document.getElementById('fecha-entrega').value;
+  const pago  = document.getElementById('estado-pago').value;
+  const notas = document.getElementById('notas-unico').value;
+  const items = PRODUCTOS.filter(p => cantidades[p.id] > 0);
   let total = 0;
 
   const detalle = items.map(p => {
@@ -832,48 +1370,48 @@ function construirSuscripcion() {
   return { cli, cliId, frecuencia, dia, fechaIni, fechaFin, pago, notas, items, detalle, total };
 }
 
-// ── GUARDAR PEDIDO ÚNICO ──────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  GUARDAR PEDIDO
+// ─────────────────────────────────────────────────────
 
 function armarParamsPedido(p, accion) {
   return new URLSearchParams({
     accion,
-    id_pedido:       p.idPedido,
-    fecha_pedido:    p.fechaHoy,
-    id_cliente:      p.cliId,
-    nombre_cliente:  p.cli.nombre,
-    telefono:        p.cli.telefono || '',
-    direccion:       p.cli.direccion || '',
-    productos:       p.lineas.join(' | '),
+    id_pedido:         p.idPedido,
+    fecha_pedido:      p.fechaHoy,
+    id_cliente:        p.cliId,
+    nombre_cliente:    p.cli.nombre,
+    telefono:          p.cli.telefono  || '',
+    direccion:         p.cli.direccion || '',
+    productos:         p.lineas.join(' | '),
     detalle_productos: JSON.stringify(p.detalle),
-    total:           p.total,
-    fecha_entrega:   p.fecha,
-    estado_pago:     p.pago,
-    notas:           p.notas || '',
-    estado_pedido:   'Pendiente',
-    origen:          'unico'
+    total:             p.total,
+    fecha_entrega:     p.fecha,
+    estado_pago:       p.pago,
+    notas:             p.notas || '',
+    estado_pedido:     'Pendiente',
+    origen:            'unico'
   });
 }
 
 async function guardarEnSheets() {
-  const p     = construirPedido();
-  const btn   = document.getElementById('btn-guardar');
+  const p      = construirPedido();
+  const btn    = document.getElementById('btn-guardar');
   const alertEl = document.getElementById('alert-save');
 
   btn.innerHTML = '<span class="spinner"></span>Guardando...';
   btn.disabled  = true;
 
-  const params = armarParamsPedido(p, 'guardarPedido');
-
   try {
-    const data = await cargarJSONPConParams(params);
-    if (!data.ok) throw new Error(data.error || 'No se pudo guardar el pedido');
+    const data = await cargarJSONPConParams(armarParamsPedido(p, 'guardarPedido'));
+    if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
     alertEl.className   = 'alert alert-ok show';
     alertEl.textContent = '✅ Pedido ' + p.idPedido + ' guardado correctamente';
     btn.innerHTML = '✓ Guardado';
     setTimeout(() => { btn.innerHTML = '💾 Guardar'; btn.disabled = false; }, 3000);
   } catch (err) {
     alertEl.className   = 'alert alert-warn show';
-    alertEl.textContent = '❌ Error al guardar: ' + err.message;
+    alertEl.textContent = '❌ ' + err.message;
     btn.innerHTML = '💾 Guardar';
     btn.disabled  = false;
   }
@@ -887,24 +1425,24 @@ async function crearEventoCalendar() {
   btn.innerHTML = '<span class="spinner"></span>Creando...';
   btn.disabled  = true;
 
-  const params = armarParamsPedido(p, 'crearCalendar');
-
   try {
-    const data = await cargarJSONPConParams(params);
-    if (!data.ok) throw new Error(data.error || 'No se pudo crear el evento');
+    const data = await cargarJSONPConParams(armarParamsPedido(p, 'crearCalendar'));
+    if (!data.ok) throw new Error(data.error);
     alertEl.className   = 'alert alert-ok show';
     alertEl.textContent = '✅ Evento creado en Google Calendar';
     btn.innerHTML = '✓ Calendar';
     setTimeout(() => { btn.innerHTML = '📅 Calendar'; btn.disabled = false; }, 3000);
   } catch (err) {
     alertEl.className   = 'alert alert-warn show';
-    alertEl.textContent = '❌ Error Calendar: ' + err.message;
+    alertEl.textContent = '❌ ' + err.message;
     btn.innerHTML = '📅 Calendar';
     btn.disabled  = false;
   }
 }
 
-// ── GUARDAR SUSCRIPCIÓN ───────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  GUARDAR SUSCRIPCIÓN
+// ─────────────────────────────────────────────────────
 
 async function guardarSuscripcionSheets() {
   const s   = construirSuscripcion();
@@ -913,7 +1451,7 @@ async function guardarSuscripcionSheets() {
 
   if (!s.fechaIni) {
     alertEl.className   = 'alert alert-warn show';
-    alertEl.textContent = '⚠️ Debes ingresar una fecha de inicio para la suscripción';
+    alertEl.textContent = '⚠️ Debes ingresar una fecha de inicio';
     return;
   }
 
@@ -924,7 +1462,7 @@ async function guardarSuscripcionSheets() {
     accion:            'guardarSuscripcion',
     id_cliente:        s.cliId,
     nombre_cliente:    s.cli.nombre,
-    telefono:          s.cli.telefono || '',
+    telefono:          s.cli.telefono  || '',
     direccion:         s.cli.direccion || '',
     detalle_productos: JSON.stringify(s.detalle),
     total:             s.total,
@@ -938,60 +1476,50 @@ async function guardarSuscripcionSheets() {
 
   try {
     const data = await cargarJSONPConParams(params);
-    if (!data.ok) throw new Error(data.error || 'No se pudo guardar la suscripción');
+    if (!data.ok) throw new Error(data.error);
     alertEl.className   = 'alert alert-sub show';
     alertEl.textContent = '🔁 Suscripción ' + data.id_suscripcion + ' creada para ' + s.cli.nombre;
     btn.innerHTML = '✓ Creada';
     setTimeout(() => { btn.innerHTML = '🔁 Crear suscripción'; btn.disabled = false; }, 3000);
   } catch (err) {
     alertEl.className   = 'alert alert-warn show';
-    alertEl.textContent = '❌ Error al guardar suscripción: ' + err.message;
+    alertEl.textContent = '❌ ' + err.message;
     btn.innerHTML = '🔁 Crear suscripción';
     btn.disabled  = false;
   }
 }
 
-// ── WHATSAPP ──────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+//  WHATSAPP
+// ─────────────────────────────────────────────────────
 
 function generarWhatsApp() {
   const p = construirPedido();
-
   const fechaFmt = p.fecha
     ? new Date(p.fecha + 'T12:00:00').toLocaleDateString('es-CO', { weekday:'long', day:'numeric', month:'long' })
     : 'por confirmar';
-
   const pagoLabel = { Pendiente:'💳 Pago pendiente', Pagado:'✅ Pagado', Seña:'⚡ Seña recibida' }[p.pago];
-
   const lineasFmt = p.items.map(prod => {
     const precio = Number(prod.precio) || 0;
-    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio * cantidades[prod.id]).toLocaleString('es-CO')}`;
+    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio*cantidades[prod.id]).toLocaleString('es-CO')}`;
   }).join('\n');
-
-  let msg = `*PEDIDO ULAKU*\n━━━━━━━━━━━━━━━━━━\n👤 ${p.cli.nombre}\n📍 ${p.cli.direccion || ''}\n📅 Entrega: ${fechaFmt}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *Total: $${p.total.toLocaleString('es-CO')}*\n${pagoLabel}`;
-
+  let msg = `*PEDIDO ULAKU*\n━━━━━━━━━━━━━━━━━━\n👤 ${p.cli.nombre}\n📍 ${p.cli.direccion||''}\n📅 Entrega: ${fechaFmt}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *Total: $${p.total.toLocaleString('es-CO')}*\n${pagoLabel}`;
   if (p.notas) msg += `\n📝 ${p.notas}`;
-
   mostrarPreview(msg);
 }
 
 function generarWhatsAppSub() {
   const s = construirSuscripcion();
-
   const freqLabel = { semanal:'cada semana', quincenal:'cada 2 semanas', mensual:'mensual' };
-
   const lineasFmt = s.items.map(prod => {
     const precio = Number(prod.precio) || 0;
-    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio * cantidades[prod.id]).toLocaleString('es-CO')}`;
+    return `  • ${cantidades[prod.id]}× ${prod.nombre} → $${(precio*cantidades[prod.id]).toLocaleString('es-CO')}`;
   }).join('\n');
-
   const fechaIniStr = s.fechaIni
     ? new Date(s.fechaIni + 'T12:00:00').toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' })
     : 'por confirmar';
-
-  let msg = `*SUSCRIPCIÓN ULAKU* 🔁\n━━━━━━━━━━━━━━━━━━\n👤 ${s.cli.nombre}\n📍 ${s.cli.direccion || ''}\n🔁 ${freqLabel[s.frecuencia]} — ${s.dia}\n📅 Desde: ${fechaIniStr}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *$${s.total.toLocaleString('es-CO')} por entrega*`;
-
+  let msg = `*SUSCRIPCIÓN ULAKU* 🔁\n━━━━━━━━━━━━━━━━━━\n👤 ${s.cli.nombre}\n📍 ${s.cli.direccion||''}\n🔁 ${freqLabel[s.frecuencia]} — ${s.dia}\n📅 Desde: ${fechaIniStr}\n━━━━━━━━━━━━━━━━━━\n${lineasFmt}\n━━━━━━━━━━━━━━━━━━\n💰 *$${s.total.toLocaleString('es-CO')} por entrega*`;
   if (s.notas) msg += `\n📝 ${s.notas}`;
-
   mostrarPreview(msg);
 }
 
@@ -1008,6 +1536,301 @@ function copiarMensaje() {
     const b = document.getElementById('btn-copy');
     b.textContent = '✓ Copiado';
     setTimeout(() => { b.textContent = '📋 Copiar mensaje'; }, 2000);
+  });
+}
+
+// ─────────────────────────────────────────────────────
+//  CARTERA
+// ─────────────────────────────────────────────────────
+
+async function cargarCartera() {
+  const lista    = document.getElementById('cartera-lista');
+  const totalBox = document.getElementById('cartera-total-box');
+
+  lista.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">⏳ Cargando cartera...</p>';
+  totalBox.innerHTML = '';
+
+  try {
+    const data = await cargarJSONP('obtenerCartera');
+    if (!data.ok) throw new Error(data.error);
+
+    const clientes = data.data || [];
+    const total    = data.total_cartera || 0;
+
+    // Total box
+    totalBox.innerHTML = `
+      <div class="cartera-total">
+        <div class="ct-label">Cartera total pendiente</div>
+        <div class="ct-monto">$${total.toLocaleString('es-CO')}</div>
+        <div class="ct-clientes">${clientes.length} cliente${clientes.length !== 1 ? 's' : ''} con saldo</div>
+      </div>
+    `;
+
+    if (!clientes.length) {
+      lista.innerHTML = '<p style="color:var(--green);font-size:13px;text-align:center;padding:20px 0">✅ Sin cartera pendiente</p>';
+      return;
+    }
+
+    lista.innerHTML = '';
+    clientes.forEach(c => {
+      const pct = total > 0 ? (c.saldo_pendiente / total * 100) : 0;
+      const div = document.createElement('div');
+      div.className = 'cli-card';
+      div.onclick   = () => abrirEstadoCuenta(c.id_cliente, c.nombre_cliente);
+      div.innerHTML = `
+        <div class="cli-card-top">
+          <div class="cli-card-nombre">${c.nombre_cliente}</div>
+          <div class="cli-card-saldo">$${c.saldo_pendiente.toLocaleString('es-CO')}</div>
+        </div>
+        <div class="cli-card-meta">
+          ${c.pedidos_pendientes} pedido${c.pedidos_pendientes !== 1 ? 's' : ''} pendiente${c.pedidos_pendientes !== 1 ? 's' : ''}
+          &nbsp;·&nbsp; Último: ${c.ultimo_pedido || '—'}
+        </div>
+        <div class="cli-card-bar-bg">
+          <div class="cli-card-bar" style="width:${pct.toFixed(1)}%"></div>
+        </div>
+      `;
+      lista.appendChild(div);
+    });
+
+  } catch (err) {
+    lista.innerHTML = `<p style="color:#c0392b;font-size:13px;text-align:center;padding:20px 0">❌ ${err.message}</p>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────
+//  ESTADO DE CUENTA
+// ─────────────────────────────────────────────────────
+
+async function abrirEstadoCuenta(idCliente, nombreCliente) {
+  CLIENTE_EC = { id: idCliente, nombre: nombreCliente };
+
+  document.getElementById('cartera-general-view').style.display  = 'none';
+  document.getElementById('estado-cuenta-view').style.display    = 'block';
+  document.getElementById('ec-nombre-cliente').textContent       = nombreCliente;
+  document.getElementById('ec-pedidos-lista').innerHTML          = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">⏳ Cargando...</p>';
+  document.getElementById('ec-resumen-kpis').innerHTML           = '';
+
+  try {
+    const params = new URLSearchParams({ accion: 'estadoCuenta', id_cliente: idCliente });
+    const data   = await cargarJSONPConParams(params);
+    if (!data.ok) throw new Error(data.error);
+
+    // KPIs
+    document.getElementById('ec-resumen-kpis').innerHTML = `
+      <div class="ec-kpi">
+        <div class="ec-kpi-label">Facturado</div>
+        <div class="ec-kpi-valor">$${data.total_facturado.toLocaleString('es-CO')}</div>
+      </div>
+      <div class="ec-kpi">
+        <div class="ec-kpi-label">Pagado</div>
+        <div class="ec-kpi-valor verde">$${data.total_pagado.toLocaleString('es-CO')}</div>
+      </div>
+      <div class="ec-kpi">
+        <div class="ec-kpi-label">Saldo</div>
+        <div class="ec-kpi-valor rojo">$${data.saldo_total.toLocaleString('es-CO')}</div>
+      </div>
+    `;
+
+    // Pedidos
+    const lista = document.getElementById('ec-pedidos-lista');
+    lista.innerHTML = '';
+
+    if (!data.pedidos || !data.pedidos.length) {
+      lista.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0">Sin pedidos registrados</p>';
+      return;
+    }
+
+    data.pedidos.forEach(ped => {
+      const pct     = ped.total > 0 ? (ped.pagado / ped.total * 100) : 100;
+      const saldado = ped.saldo <= 0;
+
+      const pagosHtml = ped.pagos && ped.pagos.length
+        ? '<div class="ped-pagos-list">' +
+          ped.pagos.map(pg =>
+            `<div class="ped-pago-row">
+              <span>✓ ${pg.fecha} — ${pg.metodo}</span>
+              <span>$${pg.valor.toLocaleString('es-CO')}</span>
+            </div>`
+          ).join('') +
+          '</div>'
+        : '';
+
+      const div = document.createElement('div');
+      div.className = 'ped-item' + (saldado ? ' saldado' : '');
+      div.innerHTML = `
+        <div class="ped-item-top">
+          <div>
+            <div class="ped-item-id">${ped.id_pedido}</div>
+            <div class="ped-item-fecha">${ped.origen === 'suscripcion' ? '🔁 ' : '📦 '}${ped.fecha_pedido || ''}</div>
+          </div>
+          <div class="ped-item-saldo ${saldado ? 'saldado' : 'pendiente'}">
+            ${saldado ? '✅ Saldado' : '$' + ped.saldo.toLocaleString('es-CO')}
+          </div>
+        </div>
+        <div class="ped-item-barra">
+          <div class="ped-item-barra-fill" style="width:${pct.toFixed(1)}%"></div>
+        </div>
+        <div class="ped-item-meta">
+          Total: $${ped.total.toLocaleString('es-CO')}
+          &nbsp;·&nbsp; Pagado: $${ped.pagado.toLocaleString('es-CO')}
+          ${ped.fecha_entrega ? '&nbsp;·&nbsp; Entrega: ' + ped.fecha_entrega : ''}
+        </div>
+        ${pagosHtml}
+      `;
+      lista.appendChild(div);
+    });
+
+  } catch(err) {
+    document.getElementById('ec-pedidos-lista').innerHTML =
+      `<p style="color:#c0392b;font-size:13px;text-align:center;padding:10px 0">❌ ${err.message}</p>`;
+  }
+}
+
+function volverCartera() {
+  document.getElementById('estado-cuenta-view').style.display   = 'none';
+  document.getElementById('cartera-general-view').style.display = 'block';
+  CLIENTE_EC = null;
+  document.getElementById('pago-valor').value = '';
+  document.getElementById('pago-notas').value = '';
+}
+
+// ─────────────────────────────────────────────────────
+//  REGISTRAR PAGO
+// ─────────────────────────────────────────────────────
+
+async function registrarPago() {
+  if (!CLIENTE_EC) return;
+
+  const valor  = parseFloat(document.getElementById('pago-valor').value);
+  const metodo = document.getElementById('pago-metodo').value;
+  const notas  = document.getElementById('pago-notas').value;
+
+  if (!valor || valor <= 0) {
+    alert('Ingresa un valor de pago válido');
+    return;
+  }
+
+  const btn = document.getElementById('btn-registrar-pago');
+  btn.innerHTML = '<span class="spinner"></span>Registrando...';
+  btn.disabled  = true;
+
+  const params = new URLSearchParams({
+    accion:          'registrarPago',
+    id_cliente:      CLIENTE_EC.id,
+    nombre_cliente:  CLIENTE_EC.nombre,
+    valor:           valor,
+    metodo:          metodo,
+    notas:           notas
+  });
+
+  try {
+    const data = await cargarJSONPConParams(params);
+    if (!data.ok) throw new Error(data.error);
+
+    // Mostrar recibo
+    mostrarRecibo(data, CLIENTE_EC.nombre, valor, metodo, notas);
+
+    btn.innerHTML = '✓ Registrado';
+    setTimeout(() => { btn.innerHTML = '💰 Registrar pago'; btn.disabled = false; }, 2000);
+
+    // Recargar estado de cuenta
+    setTimeout(() => abrirEstadoCuenta(CLIENTE_EC.id, CLIENTE_EC.nombre), 1500);
+
+  } catch(err) {
+    alert('❌ ' + err.message);
+    btn.innerHTML = '💰 Registrar pago';
+    btn.disabled  = false;
+  }
+}
+
+// ─────────────────────────────────────────────────────
+//  RECIBO
+// ─────────────────────────────────────────────────────
+
+function mostrarRecibo(data, nombreCliente, valorTotal, metodo, notas) {
+  const fecha = new Date().toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
+  const hora  = new Date().toLocaleTimeString('es-CO', { hour:'2-digit', minute:'2-digit' });
+
+  const aplicacionesHtml = data.aplicaciones && data.aplicaciones.length
+    ? data.aplicaciones.map(a =>
+        `📄 ${a.id_pedido} → $${a.monto.toLocaleString('es-CO')}`
+      ).join('\n')
+    : '';
+
+  const abonoHtml = data.abono_cuenta > 0
+    ? `<br>💾 Abono a cuenta: $${data.abono_cuenta.toLocaleString('es-CO')}`
+    : '';
+
+  // Texto para WhatsApp
+  RECIBO_TEXTO_WA = `*RECIBO DE PAGO — ULAKU*\n━━━━━━━━━━━━━━━━━━\n` +
+    `📋 ID: ${data.id_pago}\n👤 Cliente: ${nombreCliente}\n📅 Fecha: ${fecha} ${hora}\n💳 Método: ${metodo}\n` +
+    `━━━━━━━━━━━━━━━━━━\n💰 *Pago recibido: $${valorTotal.toLocaleString('es-CO')}*\n` +
+    (aplicacionesHtml ? `\nAplicado a:\n${aplicacionesHtml}\n` : '') +
+    (data.abono_cuenta > 0 ? `💾 Abono a cuenta: $${data.abono_cuenta.toLocaleString('es-CO')}\n` : '') +
+    (notas ? `\n📝 ${notas}\n` : '') +
+    `━━━━━━━━━━━━━━━━━━\nGracias por tu pago 🙏`;
+
+  // HTML del recibo
+  document.getElementById('recibo-contenido').innerHTML = `
+    <div class="recibo">
+      <div class="recibo-header">
+        <div class="recibo-marca">ULAKU</div>
+        <div class="recibo-sub">Recibo de pago</div>
+      </div>
+      <div class="recibo-id">ID: ${data.id_pago} &nbsp;·&nbsp; ${fecha} ${hora}</div>
+
+      <div class="recibo-section">
+        <div class="recibo-section-title">Cliente</div>
+        <div class="recibo-row">
+          <span>Nombre</span><span><strong>${nombreCliente}</strong></span>
+        </div>
+        <div class="recibo-row">
+          <span>Método de pago</span><span>${metodo}</span>
+        </div>
+        ${notas ? `<div class="recibo-row"><span>Nota</span><span>${notas}</span></div>` : ''}
+      </div>
+
+      <div class="recibo-total">
+        <div class="recibo-total-label">PAGO RECIBIDO</div>
+        <div class="recibo-total-monto">$${valorTotal.toLocaleString('es-CO')}</div>
+      </div>
+
+      ${aplicacionesHtml ? `
+      <div class="recibo-section">
+        <div class="recibo-section-title">Aplicado a pedidos</div>
+        <div class="recibo-aplicaciones">${aplicacionesHtml.replace(/\n/g,'<br>')}</div>
+      </div>
+      ` : ''}
+
+      ${data.abono_cuenta > 0 ? `
+      <div class="recibo-saldo saldado">
+        <div class="recibo-saldo-label">Abono a cuenta</div>
+        <div class="recibo-saldo-monto">$${data.abono_cuenta.toLocaleString('es-CO')}</div>
+      </div>
+      ` : ''}
+
+      <div class="recibo-footer">
+        ULAKU · Sistema de pedidos<br>
+        ${fecha}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modal-recibo').classList.add('show');
+}
+
+function cerrarModal() {
+  document.getElementById('modal-recibo').classList.remove('show');
+}
+
+function imprimirRecibo() {
+  window.print();
+}
+
+function copiarReciboWA() {
+  navigator.clipboard.writeText(RECIBO_TEXTO_WA).then(() => {
+    alert('✅ Recibo copiado — pégalo en WhatsApp');
   });
 }
 </script>
