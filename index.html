@@ -40,19 +40,15 @@ body{
 .brand-header{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:16px;
   margin-bottom:16px;
-  flex-direction:column;
-  text-align:center;
+  flex-direction:row;
 }
 
 .brand-logo{
-  width:48px; height:48px;
+  width:90px;
+  height:auto;
   object-fit:contain;
-  border-radius:12px;
-  background:#fff;
-  border:1px solid var(--border);
-  padding:5px;
 }
 
 h1{
@@ -1306,8 +1302,8 @@ select:focus, input:focus{
 <body>
 
 <div class="brand-header">
-  <img src="logo_ulaku.jpg" alt="ulaku BREAD" class="brand-logo" style="width:100px;height:auto;">
-  <p class="subtitle" style="font-size:14px;color:var(--muted);font-weight:600;margin-top:4px;">Sistema de pedidos</p>
+  <img src="logo_ulaku.jpg" alt="ulaku BREAD" class="brand-logo">
+  <p style="font-size:22px;font-weight:700;color:var(--text);font-family:'DM Serif Display',serif;line-height:1.2;">Sistema de<br>pedidos</p>
 </div>
 
 <div id="alert-save" class="alert"></div>
