@@ -2750,10 +2750,9 @@ async function generarFactura() {
 
   try {
     const params = new URLSearchParams({
-      accion:     'getEstadoCuenta',
+      accion:     'resumenMes',
       id_cliente: idCliente,
-      mes:        mes,
-      anio:       anio
+      mes_año:    mesAño
     });
     const data = await cargarJSONPConParams(params);
     if (!data.ok) throw new Error(data.error || 'Sin datos');
@@ -2804,9 +2803,10 @@ function renderFactura(data, cliente, mes, anio) {
       : ped.fecha_pedido || '—';
 
     prods.forEach(p => {
-      const vUnit = Number(p.precio || p.valor_unitario) || 0;
       const qty   = Number(p.cantidad) || 1;
-      const total = vUnit * qty;
+      const sub   = Number(p.subtotal) || 0;
+      const vUnit = qty > 0 ? Math.round(sub / qty) : sub;
+      const total = sub;
 
       filasHtml += `
         <tr>
