@@ -42,6 +42,8 @@ body{
   align-items:center;
   gap:12px;
   margin-bottom:16px;
+  flex-direction:column;
+  text-align:center;
 }
 
 .brand-logo{
@@ -1304,7 +1306,8 @@ select:focus, input:focus{
 <body>
 
 <div class="brand-header">
-  <img src="logo_ulaku.png" alt="ulaku BREAD" class="brand-logo" style="width:72px;height:auto;">
+  <img src="logo_ulaku.jpg" alt="ulaku BREAD" class="brand-logo" style="width:100px;height:auto;">
+  <p class="subtitle" style="font-size:14px;color:var(--muted);font-weight:600;margin-top:4px;">Sistema de pedidos</p>
 </div>
 
 <div id="alert-save" class="alert"></div>
@@ -2669,7 +2672,7 @@ function mostrarRecibo(data, nombreCliente, valorTotal, metodo, notas) {
   document.getElementById('recibo-contenido').innerHTML = `
     <div class="recibo">
       <div class="recibo-header">
-        <img src="logo_ulaku.png" alt="ulaku BREAD" style="width:70px;height:auto;margin-bottom:6px;">
+        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:70px;height:auto;margin-bottom:6px;">
         <div class="recibo-sub">Recibo de pago</div>
       </div>
       <div class="recibo-id">ID: ${data.id_pago} &nbsp;·&nbsp; ${fecha} ${hora}</div>
@@ -2837,7 +2840,7 @@ function renderFactura(data, cliente, mes, anio) {
     <!-- Cabecera estilo ulaku -->
     <div class="factura-top">
       <div>
-        <img src="logo_ulaku.png" alt="ulaku BREAD" style="width:80px;height:auto;filter:brightness(0) invert(1);">
+        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:80px;height:auto;filter:brightness(0) invert(1);">
       </div>
       <div class="factura-mes-label">
         <div class="factura-mes-titulo">Tu suscripción</div>
@@ -2893,7 +2896,7 @@ function renderFactura(data, cliente, mes, anio) {
 
       <!-- Pie -->
       <div class="factura-footer">
-        <img src="logo_ulaku.png" alt="ulaku BREAD" style="width:60px;height:auto;margin-bottom:4px;display:block;margin-left:auto;margin-right:auto;"><br>
+        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:60px;height:auto;margin-bottom:4px;display:block;margin-left:auto;margin-right:auto;"><br>
         Cr 7B#108A-90 Bogotá<br>
         📱 +57 315-4869201 &nbsp;·&nbsp; ulakubread@gmail.com<br>
         Compra sin IVA
