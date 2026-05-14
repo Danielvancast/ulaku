@@ -40,13 +40,12 @@ body{
 .brand-header{
   display:flex;
   align-items:center;
-  gap:16px;
   margin-bottom:16px;
-  flex-direction:row;
+  justify-content:flex-start;
 }
 
 .brand-logo{
-  width:90px;
+  width:110px;
   height:auto;
   object-fit:contain;
 }
@@ -1050,12 +1049,12 @@ select:focus, input:focus{
 }
 
 .factura-top{
-  background:linear-gradient(135deg,#3d2b1a,#5c3d22);
-  color:#fff;
-  padding:20px;
+  background:#f9f5ef;
+  border-bottom:2px solid #c8521a;
+  padding:16px 20px;
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
+  align-items:center;
 }
 
 .factura-marca{
@@ -1080,13 +1079,14 @@ select:focus, input:focus{
   font-size:10px;
   letter-spacing:.15em;
   text-transform:uppercase;
-  opacity:.65;
+  color:var(--muted);
 }
 
 .factura-mes-nombre{
   font-family:'DM Serif Display',serif;
   font-size:22px;
   line-height:1;
+  color:#3d2b1a;
 }
 
 .factura-body{ padding:16px; }
@@ -1302,8 +1302,7 @@ select:focus, input:focus{
 <body>
 
 <div class="brand-header">
-  <img src="logo_ulaku.jpg" alt="ulaku BREAD" class="brand-logo">
-  <p style="font-size:22px;font-weight:700;color:var(--text);font-family:'DM Serif Display',serif;line-height:1.2;">Sistema de<br>pedidos</p>
+  <img src="logo_ulaku_horizontal.jpg" alt="ulaku BREAD" class="brand-logo">
 </div>
 
 <div id="alert-save" class="alert"></div>
@@ -2668,7 +2667,7 @@ function mostrarRecibo(data, nombreCliente, valorTotal, metodo, notas) {
   document.getElementById('recibo-contenido').innerHTML = `
     <div class="recibo">
       <div class="recibo-header">
-        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:70px;height:auto;margin-bottom:6px;">
+        <img src="logo_ulaku_horizontal.jpg" alt="ulaku BREAD" style="width:80px;height:auto;margin-bottom:6px;">
         <div class="recibo-sub">Recibo de pago</div>
       </div>
       <div class="recibo-id">ID: ${data.id_pago} &nbsp;·&nbsp; ${fecha} ${hora}</div>
@@ -2836,7 +2835,7 @@ function renderFactura(data, cliente, mes, anio) {
     <!-- Cabecera estilo ulaku -->
     <div class="factura-top">
       <div>
-        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:80px;height:auto;filter:brightness(0) invert(1);">
+        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:90px;height:auto;">
       </div>
       <div class="factura-mes-label">
         <div class="factura-mes-titulo">Tu suscripción</div>
@@ -2892,7 +2891,7 @@ function renderFactura(data, cliente, mes, anio) {
 
       <!-- Pie -->
       <div class="factura-footer">
-        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:60px;height:auto;margin-bottom:4px;display:block;margin-left:auto;margin-right:auto;"><br>
+        <img src="logo_ulaku.jpg" alt="ulaku BREAD" style="width:60px;height:auto;margin-bottom:4px;display:block;margin-left:auto;margin-right:auto;">
         Cr 7B#108A-90 Bogotá<br>
         📱 +57 315-4869201 &nbsp;·&nbsp; ulakubread@gmail.com<br>
         Compra sin IVA
